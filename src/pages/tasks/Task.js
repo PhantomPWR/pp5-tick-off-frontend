@@ -84,7 +84,7 @@ const Task = (props) => {
       <Card.Body className={styles.TaskBody}>
         <Media className="align-items-center justify-content-between">
           <Link to={`/tasks/${id}`}>
-            {title && <Card.Title className="fs-2 text-center">{title}</Card.Title>}
+            {title && <Card.Title className="fs-4 text-center">{title}</Card.Title>}
           </Link>
           <div className="d-flex row-cols-4 justify-content-between align-items-center">
             <span className="col-md-3">Created<br/>{created_date}</span>
@@ -111,7 +111,7 @@ const Task = (props) => {
 
       <Card.Body  className={styles.TaskBody}>
         <div className={styles.TaskBar}>            
-            {/* Assigned Users */}
+            {/* Assigned User */}
             <div align='center'>
               <strong className="fw-bold">Assigned to: </strong>
               <div className="row">

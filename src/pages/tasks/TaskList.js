@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import Task from "./Task";
 import Asset from "../../components/Asset";
@@ -17,8 +19,23 @@ import ProfileList from "../profiles/ProfileList";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import SearchBar from "../../components/SearchBar";
 
+const checkAPIConnection = () => {
+  axiosReq.get('/tasks/')
+    .then(response => {
+      // API is connected
+      console.log('API connection successful');
+    })
+    .catch(error => {
+      // Error connecting to API
+      console.error('API connection failed', error);
+    });
+};
+
+checkAPIConnection();
+
 function TaskList({ message, filter = "" }) {
   
+  // const [tasks, setTasks] = useState([]);
   const [tasks, setTasks] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
@@ -44,33 +61,46 @@ function TaskList({ message, filter = "" }) {
         const { data } = await axiosReq.get(url);
         setTasks(data);
         setHasLoaded(true);
+        console.log('tasks: ', tasks);
       } catch (err) {
         // console.log(err);
       }
     };
 
+    // const fetchTasks = async () => {
+    // try {
+    //   const { data } = await axiosReq.get(`/tasks/?${filter}search=${query}`);
+    //   setTasks(data);
+    //   setHasLoaded(true);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  // };
+  
+  
+  setHasLoaded(false);
+  // stop results flashing - fetch after 1s delay
+  const timer = setTimeout(() => {
+    fetchTasks();
+  }, 1000);
+  
+  // Cleanup Function 
+  return () => {
+    clearTimeout(timer);
+  };
+  
+}, [filter, query, pathname, currentUser, taskStatus, taskPriority]);
 
-    setHasLoaded(false);
-    // stop results flashing - fetch after 1s delay
-    const timer = setTimeout(() => {
-      fetchTasks();
-    }, 1000);
 
-    // Cleanup Function 
-    return () => {
-      clearTimeout(timer);
-    };
-
-  }, [filter, query, pathname, currentUser, taskStatus, taskPriority]);
-
-  return (
-    <Row className="h-100">
+return (
+  <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <ProfileList mobile />
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         <SearchBar query={query} setQuery={setQuery} />
         {hasLoaded ? (
           <>
+            {console.log('tasks: ', tasks)}
             {tasks.results.length ? (
               <InfiniteScroll
                 children={

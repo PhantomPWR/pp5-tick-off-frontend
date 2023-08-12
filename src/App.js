@@ -40,7 +40,8 @@ function App() {
               render={() => (
                 <TaskList
                   message="No results found. Adjust your search keyword."
-                  filter={`tasks__owner__profile=${profile_id}&assigned_to=${profile_id}`}
+                  // filter={`tasks__owner__profile=${profile_id}&assigned_to=${profile_id}`}
+                  filter={`&assigned_to=${profile_id}`}
                 />
               )}
             />

@@ -22,6 +22,7 @@ import { ProfileEditDropdown } from "../../components/MoreDropdown";
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [profileTasks, setProfileTasks] = useState({ results: [] });
+  const [assignedTasks, setAssignedTasks] = useState({ results: [] });
   const { id } = useParams();
   const { setProfileData } = useSetProfileData();
   const { pageProfile } = useProfileData();
@@ -30,17 +31,22 @@ function ProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [{ data: pageProfile }, { data: profileTasks }] = 
+        const [
+          { data: pageProfile },
+          { data: profileTasks },
+          { data: assignedTasks }
+        ] =
         await Promise.all([
           axiosReq.get(`/profiles/${id}/`),
           axiosReq.get(`/tasks/?owner__profile=${id}`),
-          // axiosReq.get(`/tasks/?assigned_to=${id}`),
+          axiosReq.get(`/tasks/?assigned_to=${id}`),
         ]);
         setProfileData((prevState) => ({
           ...prevState,
           pageProfile: {results: [pageProfile]},
         }));
         setProfileTasks(profileTasks);
+        setAssignedTasks(assignedTasks);
         setHasLoaded(true);
       } catch(err) {
         console.log(err);
@@ -48,6 +54,15 @@ function ProfilePage() {
     }
     fetchData();
   }, [id, setProfileData]);
+
+  console.log('profileTasks: ', profileTasks.results.length)
+  console.log('assignedTasks: ', assignedTasks.results.length)
+
+  const profileTaskCount = profileTasks.results.length;
+  const assignedTaskCount = assignedTasks.results.length;
+  const totalTaskCount = profileTaskCount + assignedTaskCount;
+
+  console.log('totalTaskCount: ', totalTaskCount)
 
   const mainProfile = (
     <>
@@ -62,20 +77,21 @@ function ProfilePage() {
         </Col>
         <Col lg={6}>
           <h3 className="m-2">{profile?.owner}</h3>
-          <div>{profile?.task_count}</div>
-
-          <div>{profile?.task_count === 1 ? 'task' : 'tasks'}</div>
+          <div>Tasks</div>
+          <Row className="row-cols-2">
+            <Col>Created: {profileTaskCount}</Col>
+            <Col>Assigned: {assignedTaskCount}</Col>
+          </Row>
         </Col>
         {profile?.content && <Col className="p-3">{profile.content}</Col>}
       </Row>
     </>
   );
-
+  /* 
+    Returns all tasks created by the current or viewed profile's user
+  */
   const mainProfileTasks = (
     <>
-      <hr />
-      <p className="text-center">My Tasks</p>
-      <hr />
       {profileTasks.results.length ? (
         <InfiniteScroll
           children={profileTasks.results.map((task) => (
@@ -95,6 +111,48 @@ function ProfilePage() {
     </>
   );
 
+  let taskCount = 0;
+
+  /* 
+    Returns all tasks assigned to the current or viewed profile's user
+  */
+  const mainAssignedTasks = (
+    <>
+      {assignedTasks.results.length ? (
+        <React.Fragment>
+          <InfiniteScroll
+            children={assignedTasks.results.map((task) => {
+              console.log(task);
+              if (task.assigned_to === profile.id) {
+                return (
+                  <Task key={task.id} {...task} setTasks={setAssignedTasks} />
+                );
+              } else {
+                taskCount++;
+                return null;
+              }
+            })}
+            dataLength={assignedTasks.results.length}
+            loader={<Asset spinner />}
+            hasMore={!!assignedTasks.next}
+            next={() => fetchMoreData(assignedTasks, setAssignedTasks)}
+          />
+          {taskCount === assignedTasks.results.length && (
+            <Asset
+              src={NoResults}
+              message={`No results found. No tasks assigned to ${profile?.owner} yet.`}
+            />
+          )}
+        </React.Fragment>
+      ) : (
+        <Asset
+          src={NoResults}
+          message={`No results found. No tasks assigned to ${profile?.owner} yet.`}
+        />
+      )}
+    </>
+  );
+
   return (
     <Row>
       <Col className="py-2 p-0 p-lg-2" lg={8}>
@@ -103,6 +161,7 @@ function ProfilePage() {
             <>
               {mainProfile}
               {mainProfileTasks}
+              {mainAssignedTasks}
             </>
           ) : (
             <Asset spinner />

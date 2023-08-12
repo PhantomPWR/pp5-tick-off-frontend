@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 
 const Profile = (props) => {
-  const { profile, mobile, imageSize = 55 } = props;
+  const { profile, mobile, imageSize = 40 } = props;
   const { id, image, owner } = profile;
 
 
@@ -17,8 +17,8 @@ const Profile = (props) => {
           <Avatar src={image} height={imageSize} />
         </Link>
       </div>
-      <div className={`mx-2 ${styles.WordBreak}`}>
-        <strong>{owner}</strong>
+      <div className={`mx-1 ${styles.WordBreak}`}>
+        <p className='m-0 fs-6'>{owner}</p>
       </div>
     </div>
   );

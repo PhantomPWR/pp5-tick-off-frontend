@@ -28,7 +28,7 @@ const NavBar = () => {
       // console.log(err);
     }
   };
-console.log(currentUser);
+console.log('currentUser: ', currentUser);
   const addTaskIcon = (
     <NavLink
       className={styles.NavLink}
@@ -45,7 +45,7 @@ console.log(currentUser);
         exact
         className={styles.NavLink}
         activeClassName={styles.Active}
-        to='/'
+        to='/tasks/'
       >
         <i className='fs-6 fas fa-home'></i>
         Home
@@ -53,7 +53,8 @@ console.log(currentUser);
       <NavLink
         className={styles.NavLink}
         activeClassName={styles.Active}
-        to={`/tasks/?search=${currentUser?.username}`}
+        // to={`/tasks/?assigned_to=${currentUser?.username}`}
+        to={`/tasks/?assigned_to=${currentUser?.pk}`}
       >
         <i className="fas fa-list-check"></i>
         My Tasks

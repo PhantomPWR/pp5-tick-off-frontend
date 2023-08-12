@@ -26,11 +26,12 @@ function SearchBar({ query, setQuery }) {
         aria-label="Search Bar"
       />
 
-      <div className="row mb-3">
+      <div className="row row-cols-3 mb-3 justify-content-even">
         {/* Task Status */}
-        <div className="col-4">
+        <div className="col">
           <Form.Control
-            className="col-4"
+            className="text-center"
+            size="sm"
             as="select"
             name="task_status"
             onChange={(event) => setQuery(event.target.value)}
@@ -45,8 +46,10 @@ function SearchBar({ query, setQuery }) {
         </div>
 
         {/* Task Priority */}
-        <div className="col-4">
+        <div className="col">
           <Form.Control
+            className="text-center"
+            size="sm"
             as="select"
             name="priority"
             onChange={(event) => setQuery(event.target.value)}
@@ -59,9 +62,11 @@ function SearchBar({ query, setQuery }) {
           </Form.Control>
         </div>
         {/* Clear filters */}
-        <Button className="col-4" type="button" onClick={clearForm}>
-          Clear filters
-        </Button>
+        <div className="col text-end">
+          <Button className="btn btn-sm mx-auto" type="button" onClick={clearForm}>
+            Clear filters
+          </Button>
+        </div>
       </div>
     </Form>
   );
