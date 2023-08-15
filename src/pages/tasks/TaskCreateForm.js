@@ -284,7 +284,7 @@ function TaskCreateForm() {
           onChange={handleChange}
           aria-label="assigned to"
         >
-          <option>Select a user</option>
+          <option>Select a user to assign</option>
           {users.map((user) => (
             
             <option key={user.id} value={user.id}>

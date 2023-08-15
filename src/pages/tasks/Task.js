@@ -95,8 +95,7 @@ const Task = (props) => {
               ) : (
                 <span className="col-md-3 ms-auto">Due on<br />{due_date}</span>
               )}
-            {/* <span className="col-md-3 ms-auto">{`${task_status === "COMPLETED" ? `Completed on<br/>${completed_date.substr(0, 10)}` : ""}`}</span> */}
-            <span className="col-md-3 ms-auto" dangerouslySetInnerHTML={{ __html: `${task_status === "COMPLETED" ? `Completed on<br/>${completed_date.substr(0, 10)}` : ""}` }}></span>
+            <span className={`col-md-3 ms-auto ${task_status === "COMPLETED" ? styles.Completed : ""}`} dangerouslySetInnerHTML={{ __html: `${task_status === "COMPLETED" ? `Completed on<br/>${completed_date.substr(0, 10)}` : ""}` }}></span>
             <span className="col-1 d-flex justify-content-end">
               {is_owner && taskPage && (
                 <MoreDropdown

@@ -1,48 +1,64 @@
 import React from "react";
-import { Media } from "react-bootstrap";
+import { Card, Media } from "react-bootstrap";
 import { MoreDropdown } from "../../components/MoreDropdown";
 import { axiosRes } from "../../api/axiosDefaults";
+import { Link, useHistory } from "react-router-dom";
 
 const Category = (props) => {
   const {
     id,
     title,
     description,
-    setCategories,
+    // setCategories,
+    categoryPage
   } = props;
-//   const [showEditForm, setShowEditForm] = useState(false);
+  // const [showEditForm, setShowEditForm] = useState(false);
+  const history = useHistory();
+
+  const handleEdit = () => {
+    history.push(`/categories/${id}/edit`);
+  };
+
+  // const handleDelete = async () => {
+  //   try {
+  //     await axiosRes.delete(`/categories/${id}/`);
+  //     setCategories((prevCategories) => ({
+  //       ...prevCategories,
+  //       results: prevCategories.results.filter((category) => category.id !== id),
+  //     }));
+  //   } catch (err) {}
+  // };
 
   const handleDelete = async () => {
     try {
       await axiosRes.delete(`/categories/${id}/`);
-      setCategories((prevCategories) => ({
-        ...prevCategories,
-        results: prevCategories.results.filter((category) => category.id !== id),
-      }));
+      history.goBack();
     } catch (err) {}
   };
 
   return (
-    <>
-      <hr />
-      <Media className="row">
-        <div className="row align-items-center">
-            {/* Category Description */}
-            <Media.Body className="align-self-center">
-                <span>{id}</span>
-                <h3>{title}</h3>
-                <p>{description}</p>
-            {/* )} */}
-            </Media.Body>
-        </div>
-        {/* MoreDropdown */}
-        <div className="col d-flex justify-content-end">
-            <MoreDropdown
-            handleDelete={handleDelete}
-            />
-        </div>
-      </Media>
-    </>
+    <Card>
+      <Card.Body>
+        <Media className="row">
+              {/* Category Description */}
+              <Media.Body className="align-self-center">
+                <Link to={`/categories/${id}`}>
+                  <h3>{title}</h3>
+                </Link>
+                  <p>{description}</p>
+              </Media.Body>
+          {/* MoreDropdown */}
+          <div className="col d-flex justify-content-end">
+            { categoryPage && (
+              <MoreDropdown
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              />
+            )}
+          </div>
+        </Media>
+      </Card.Body>
+    </ Card>
   );
 };
 

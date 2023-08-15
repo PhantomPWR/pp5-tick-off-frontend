@@ -28,6 +28,7 @@ function CategoryList({ message, filter = "" }) {
     const fetchCategories = async () => {
       try {
         const { data } = await axiosReq.get(`/categories/?${filter}&search=${query}`);
+        // const { data } = await axiosReq.get(`/categories/`);
           setCategories(data);
           setHasLoaded(true);
       } catch (err) {
@@ -61,29 +62,33 @@ function CategoryList({ message, filter = "" }) {
             onChange={(event) => setQuery(event.target.value)}
             type="text"
             className="me-sm-2"
-            placeholder="Search tasks"
+            placeholder="Search categories"
             aria-label="Search Bar"
           />
         </Form>
         {hasLoaded ? (
           <>
+            {console.log('categories: ', categories)}
             {categories.results.length ? (
               <InfiniteScroll
+                key={categories.results.map((category) => category.id).join(",")}
                 children={
                   categories.results.map((category) => (
                     <Category key={category.id} {...category} setCategories={setCategories} />
-                ))}
+                  ))
+                }
                 dataLength={categories.results.length}
                 loader={<Asset spinner />}
                 hasMore={!!categories.next}
                 next={() => fetchMoreData(categories, setCategories)}
               />
-              
+
             ) : (
               <Container className={appStyles.Content}>
                 <Asset src={NoResults} message={message} />
               </Container>
             )}
+
           </>
         ) : (
           <Container className={appStyles.Content}>

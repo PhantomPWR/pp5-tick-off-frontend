@@ -54,3 +54,8 @@ h5 {
     border: 2px solid darkorange;
     color: darkorange;
 }
+
+.Completed {
+    border: 2px solid green;
+    color: green;
+}

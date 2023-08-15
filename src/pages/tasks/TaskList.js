@@ -61,7 +61,7 @@ function TaskList({ message, filter = "" }) {
         const { data } = await axiosReq.get(url);
         setTasks(data);
         setHasLoaded(true);
-        console.log('tasks: ', tasks);
+        // console.log('tasks: ', tasks);
       } catch (err) {
         // console.log(err);
       }
@@ -103,6 +103,7 @@ return (
             {console.log('tasks: ', tasks)}
             {tasks.results.length ? (
               <InfiniteScroll
+                key={tasks.results.map(task => task.id).join(",")}
                 children={
                   tasks.results.map((task) => (
                     <Task key={task.id} {...task} setTasks={setTasks} />

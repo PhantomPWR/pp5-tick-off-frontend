@@ -12,12 +12,14 @@ import { useCurrentUser } from './contexts/CurrentUserContext';
 import TaskEditForm from './pages/tasks/TaskEditForm';
 import ProfilePage from './pages/profiles/ProfilePage';
 import ProfileList from './pages/profiles/ProfileList';
-import CategoryList from './pages/categories/CategoryList';
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from './pages/profiles/UserPasswordForm';
 import ProfileEditForm from './pages/profiles/ProfileEditForm';
 import NotFound from './components/NotFound';
+import CategoryList from './pages/categories/CategoryList';
 import CategoryPage from './pages/categories/CategoryPage';
+import CategoryCreateForm from './pages/categories/CategoryCreateForm';
+import CategoryEditForm from './pages/categories/CategoryEditForm';
 
 
 function App() {
@@ -54,6 +56,8 @@ function App() {
             <Route exact path="/profiles/" render={() => <ProfileList />} />
             <Route exact path="/profiles/:id" render={() => <ProfilePage />} />
             <Route exact path="/categories/" render={() => <CategoryList />} />
+            <Route exact path="/categories/create" render={() => <CategoryCreateForm />} />
+            <Route exact path="/categories/:id/edit" render={() => <CategoryEditForm />} />
             <Route exact path="/categories/:id" render={() => <CategoryPage />} />
             <Route
               exact

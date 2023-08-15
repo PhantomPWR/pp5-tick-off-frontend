@@ -39,6 +39,16 @@ console.log('currentUser: ', currentUser);
       Add task
     </NavLink>
   );
+  const addCategoryIcon = (
+    <NavLink
+      className={styles.NavLink}
+      activeClassName={styles.Active}
+      to="/categories/create"
+    >
+      <i className="far fa-plus-square"></i>
+      Add category
+    </NavLink>
+  );
   const loggedInIcons = (
     <>
       <NavLink
@@ -105,6 +115,7 @@ console.log('currentUser: ', currentUser);
           </Navbar.Brand>
         </NavLink>
         {currentUser && addTaskIcon}
+        {currentUser && addCategoryIcon}
         <Navbar.Toggle
           ref={ref}
           onClick={() => setExpanded(!expanded)}

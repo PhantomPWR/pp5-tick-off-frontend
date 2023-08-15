@@ -1,77 +1,148 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
+import styles from "../../styles/TaskCreateEditForm.module.css";
+import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import { useHistory, useParams } from "react-router-dom";
+import { axiosReq } from "../../api/axiosDefaults";
 
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 
-import styles from "../../styles/CategoryCreateEditForm.module.css";
-import { axiosRes } from "../../api/axiosDefaults";
 
-function CategoryCreateForm(props) {
-  const { setCategories } = props;
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+function CategoryEditForm() {
+
+  const [errors, setErrors] = useState({});
+ 
+  const [categoryData, setCategoryData] = useState({
+    title: '',
+    description: '',
+  });
+
+  const {
+    title,
+    description,
+  } = categoryData;
+
+  const history = useHistory();
+  const {id} = useParams();
+
+  useEffect(() => {
+    const handleMount = async () => {
+      try {
+        const { data } = await axiosReq.get(`/categories/${id}/`);
+        const {
+          title,
+          description,
+        } = data;
+
+        setCategoryData({
+          title,
+          description,
+        });
+      } catch (err) {
+          console.log(err);
+        }
+    };
+    handleMount();
+  }, [id]);
 
   const handleChange = (event) => {
-    setTitle(event.target.value);
-    setDescription(event.target.value);
+    setCategoryData({
+      ...categoryData,
+      [event.target.name]: event.target.value,
+    });
   };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const { data } = await axiosRes.post("/categories/", {
-        title,
-        description
-      });
-      setCategories((prevCategories) => ({
-        ...prevCategories,
-        results: [data, ...prevCategories.results],
-      }));
-      setTitle("");
-      setDescription("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    const formData = new FormData();
 
-  return (
-    <Form className="mt-2" onSubmit={handleSubmit}>
+    formData.append('title', title);
+    formData.append('description', description);
+  
+    try {
+        await axiosReq.put(`/categories/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        history.push(`/categories/${id}`)
+    } catch(err){
+        if (err.response?.status !== 401){
+          // console.log(err.response?.data);
+          setErrors(err.response?.data);
+        }
+    }
+
+  }
+
+
+  const textFields = (
+    <div className="text-center">
+      
       {/* Title */}
       <Form.Group>
-        <InputGroup>
-          <Form.Control
-            className={styles.Form}
-            placeholder="Enter category title"
-            aria-label="Category Title"
-            as="text"
+        <Form.Label>Category Title</Form.Label>
+        <Form.Control
+            type="text"
+            name="title"
             value={title}
             onChange={handleChange}
-          />
-        </InputGroup>
+        />
       </Form.Group>
-
+      {errors?.title?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
+      
       {/* Description */}
       <Form.Group>
-        <InputGroup>
-          <Form.Control
-            className={styles.Form}
-            placeholder="Enter category description"
-            aria-label="Category Description"
-            as="text"
+        <Form.Label>Category Description</Form.Label>
+        <Form.Control
+            type="text"
+            name="description"
             value={description}
             onChange={handleChange}
-          />
-        </InputGroup>
+        /> 
       </Form.Group>
-      <button
-        className={`${styles.Button} btn d-block ms-auto`}
-        disabled={!title.trim()}
-        type="submit"
+      {errors?.description?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
+    
+      <Button
+        className={`${btnStyles.Button} ${btnStyles.Blue}`}
+        onClick={() => history.goBack()}
       >
-        add
-      </button>
+        cancel
+      </Button>
+      <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
+        update
+      </Button>
+    </div>
+  );
+
+  
+
+  return (
+
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <Col md={7} lg={7} className="d-none d-md-block p-0 p-md-2">
+          <Container className={appStyles.Content}>{textFields}</Container>
+        </Col>
+        <Col className="py-2 p-0 p-md-2" md={5} lg={5}>
+          <Container
+            className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
+          >
+            <div className="d-md-none">{textFields}</div>
+          </Container>
+        </Col>
+      </Row>
     </Form>
   );
 }
 
-export default CategoryCreateForm;
+export default CategoryEditForm;

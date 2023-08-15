@@ -129,7 +129,8 @@ function TaskEditForm() {
           updated_date,
           owner_comments,
           assigned_to, 
-          is_owner } = data;
+          is_owner
+        } = data;
 
         is_owner ? setTaskData({
           title,
