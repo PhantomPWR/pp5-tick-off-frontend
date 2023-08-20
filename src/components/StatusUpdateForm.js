@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Form } from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
+
 import axios from "axios";
 
 const status_choices = {
@@ -36,14 +37,16 @@ const StatusUpdateForm = ({ taskId, currentStatus, onUpdateStatus }) => {
 
   return (
     <Form>
-      <select value={newStatus} onChange={handleStatusChange}>
-        <option value="">Select task status</option>
-        {Object.keys(status_choices).map((status) => (
-          <option key={status} value={status}>
-            {status_choices[status]}
-          </option>
-        ))}
-      </select>
+      <div className="form-group">
+        <select className="form-control text-center" value={newStatus} onChange={handleStatusChange}>
+          <option value="">Select status</option>
+          {Object.keys(status_choices).map((status) => (
+            <option key={status} value={status}>
+              {status_choices[status]}
+            </option>
+          ))}
+        </select>
+      </div>
     </Form>
   );
 };

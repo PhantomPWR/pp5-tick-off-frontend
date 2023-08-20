@@ -36,9 +36,10 @@ const Task = (props) => {
   } = props;
 
   const [taskStatus, setTaskStatus] = useState(props.task_status);
-
+  const [showStatusUpdateForm, setShowStatusUpdateForm] = useState(true);
   const handleStatusUpdate = async (newStatus) => {
     setTaskStatus(newStatus);
+    setShowStatusUpdateForm(newStatus !== 'COMPLETED');
   };
 
 
@@ -93,12 +94,12 @@ const Task = (props) => {
               Created<br />
               {created_date}
             </span>
-            {isDueDateInPast && task_status !== "COMPLETED" ? (
+            {isDueDateInPast && task_status !== 'COMPLETED' && showStatusUpdateForm ? (
               <span className={`col-md-3 ms-auto ${styles.OverDue}`}>
                 Overdue<br />
                 {due_date}
               </span>
-            ) : isDueDateToday && task_status !== "COMPLETED" ? (
+            ) : isDueDateToday && task_status !== 'COMPLETED' && showStatusUpdateForm ? (
               <span className={`col-md-3 ms-auto ${styles.DueToday}`}>
                 Due Today<br />
                 {due_date}
@@ -109,16 +110,22 @@ const Task = (props) => {
                 {due_date}
               </span>
             )}
-            {task_status !== "COMPLETED" && taskPage ? (
+            {task_status !== 'COMPLETED' && taskPage && showStatusUpdateForm ? (
               <span className={`col-md-3 ms-auto`}>
-                <span>StatusUpdateForm</span>
+                <span>Update Task Status</span>
                 <StatusUpdateForm
                   taskId={id}
                   onUpdateStatus={handleStatusUpdate}
                 />
               </span>
             ) : (
-              <span className={`col-md-3 ms-auto ${task_status === "COMPLETED" ? styles.Completed : ''}`} dangerouslySetInnerHTML={{ __html: `${task_status === "COMPLETED" ? `Completed on<br/>${completed_date.substr(0, 10)}` : ""}` }}></span>
+              <>
+              {task_status === 'COMPLETED' || taskStatus === 'COMPLETED' ? (
+                <span className={`col-md-3 ms-auto ${styles.Completed}`}>
+                  Completed on<br/>{completed_date ? completed_date.substr(0, 10) : ''}
+                </span>
+              ) : null}
+              </>
             )}
             <span className="col-1 d-flex justify-content-end">
               {is_owner && taskPage && (
@@ -157,8 +164,7 @@ const Task = (props) => {
 
             {/* Task Status */}
             <span className="col-md-3">
-              <i className="fas fa-list-check"></i>
-              Status: 
+              <span><i className="fas fa-list-check"></i>Status:  </span>
               { !taskStatus ? (
                 <TaskStatus taskStatus={task_status} />
               ) : (
