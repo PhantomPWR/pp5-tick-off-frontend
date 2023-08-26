@@ -68,15 +68,29 @@ function TaskList({ message, filter = "" }) {
     };
 
     // const fetchTasks = async () => {
-    // try {
-    //   const { data } = await axiosReq.get(`/tasks/?${filter}search=${query}`);
-    //   setTasks(data);
-    //   setHasLoaded(true);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  // };
-  
+    //   try {
+    //     let url = `/tasks/?${filter}`;
+    //     if (query) {
+    //       url += `&search=${query}`;
+    //     }
+    //     if (taskStatus) {
+    //       url += `&task_status=${taskStatus}`;
+    //     }
+    //     if (taskPriority) {
+    //       url += `&priority=${taskPriority}`;
+    //     }
+    //     const { data } = await axiosReq.get(url);
+    //     setTasks(prevState => ({
+    //       ...prevState,
+    //       results: [...prevState.results, ...data.results],
+    //       next: data.next
+    //     }));
+    //     setHasLoaded(true);
+    //   } catch (err) {
+    //     // handle error
+    //   }
+    // };
+
   
   setHasLoaded(false);
   // stop results flashing - fetch after 1s delay
@@ -97,7 +111,7 @@ return (
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <ProfileList mobile />
         <i className={`fas fa-search ${styles.SearchIcon}`} />
-        <SearchBar query={query} setQuery={setQuery} />
+        <SearchBar query={query} setQuery={setQuery} taskCount={tasks.count} />
         {hasLoaded ? (
           <>
             {console.log('tasks: ', tasks)}

@@ -1,14 +1,38 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
+import { axiosReq } from "../api/axiosDefaults";
 
 import styles from '../styles/SearchBar.module.css';
 
-function SearchBar({ query, setQuery }) {
+function SearchBar({ query, setQuery, taskCount }) {
+    const [
+      taskCategoryChoices,
+      setTaskCategoryChoices
+    ] = useState([{'value': '', 'label': ''}]);
+
+    // Fetch task category choices from the API
+    useEffect(() => {
+      const fetchTaskCategoryChoices = async () => {
+        try {
+          const response = await axiosReq.get('/category-choices/');
+          const categoryChoices = response.data.map(category => ({
+            key: category.id,
+            value: category.value,
+            label: category.label
+          }));
+          setTaskCategoryChoices(categoryChoices);
+        } catch (error) {
+          console.error('Error fetching category options:', error);
+        }
+      };
+      
+      fetchTaskCategoryChoices();
+    }, []);
 
     const formRef = useRef(null);
     const clearForm = () => {
         formRef.current.reset();
-        setQuery("");
+        setQuery('');
     };
 
   return (
@@ -17,16 +41,45 @@ function SearchBar({ query, setQuery }) {
       className={styles.SearchBar}
       onSubmit={(event) => event.preventDefault()}
     >
-      <Form.Control
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        type="text"
-        className="me-sm-2"
-        placeholder="Search tasks"
-        aria-label="Search Bar"
-      />
+      <div className='row row-cols-2 d-flex justify-content-between align-items-center'>
+        <div className="col-9">
+          <Form.Control
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            type="text"
+            className="me-sm-2"
+            placeholder="Search tasks"
+            aria-label="Search Bar"
+          />
+        </div>
+        <div className="col-3 text-center">
+          <p className="me-sm-2">
+            Results: {taskCount}
+          </p>
+        </div>
+      </div>
 
-      <div className="row row-cols-3 mb-3 justify-content-even">
+      <div className="row row-cols-4 mb-3 justify-content-even">
+        {/* Task Category */}
+        <div className="col">
+          <Form.Control
+            className="text-center"
+            size="sm"
+            as="select"
+            name="task_category"
+            onChange={(event) => setQuery(event.target.value)}
+            aria-label="task category"
+          >
+            <option value="">Select category</option>
+            {taskCategoryChoices.map((categoryChoice) => (
+              <option 
+                key={categoryChoice.value} 
+                value={categoryChoice.label}>
+                  {categoryChoice.label}
+              </option>
+            ))}
+          </Form.Control>
+        </div>
         {/* Task Status */}
         <div className="col">
           <Form.Control
@@ -37,7 +90,7 @@ function SearchBar({ query, setQuery }) {
             onChange={(event) => setQuery(event.target.value)}
             aria-label="task status"
           >
-            <option value="">Select task status</option>
+            <option value="">Select status</option>
             <option key="BACKLOG" value="BACKLOG">Backlog</option>
             <option key="TODO" value="TODO">To Do</option>
             <option key="INPROGRESS" value="INPROGRESS">In Progress</option>
@@ -55,7 +108,7 @@ function SearchBar({ query, setQuery }) {
             onChange={(event) => setQuery(event.target.value)}
             aria-label="task priority"
           >
-            <option value="">Select task priority</option>
+            <option value="">Select priority</option>
             <option key="PRIORITY1" value="PRIORITY1">Priority 1</option>
             <option key="PRIORITY2" value="PRIORITY2">Priority 2</option>
             <option key="PRIORITY3" value="PRIORITY3">Priority 3</option>

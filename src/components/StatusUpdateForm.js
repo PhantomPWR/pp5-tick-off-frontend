@@ -29,11 +29,38 @@ const StatusUpdateForm = ({ taskId, currentStatus, onUpdateStatus }) => {
     setLoading(false);
   }, [taskId, newStatus, onUpdateStatus]);
 
+  // useEffect(() => {
+  //   if (newStatus !== currentStatus && newStatus !== "") {
+  //     submitForm();
+  //   }
+  // }, [newStatus, currentStatus, submitForm]);
+
   useEffect(() => {
-    if (newStatus !== currentStatus && newStatus !== "") {
-      submitForm();
+  let cancelRequest = false;
+
+  const submitForm = async () => {
+    setLoading(true);
+    try {
+      await axios.patch(`/tasks/${taskId}/`, { task_status: newStatus });
+      if (!cancelRequest) {
+        onUpdateStatus(newStatus);
+      }
+    } catch (err) {
+      // Handle error
+    } finally {
+      setLoading(false);
     }
-  }, [newStatus, currentStatus, submitForm]);
+  };
+
+  if (newStatus !== currentStatus && newStatus !== "") {
+    submitForm();
+  }
+
+  return () => {
+    cancelRequest = true;
+  };
+}, [newStatus, currentStatus, onUpdateStatus, taskId]);
+
 
   return (
     <Form>

@@ -4,10 +4,11 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Link, useHistory } from "react-router-dom";
 import { MoreDropdown } from "../../components/MoreDropdown";
 import axios from "axios";
-import { axiosRes } from "../../api/axiosDefaults";
+import { axiosReq, axiosRes } from "../../api/axiosDefaults";
 import StatusUpdateForm from "../../components/StatusUpdateForm";
 import TaskStatus from "../../components/TaskStatus";
 import { Card, Media, Modal } from "react-bootstrap";
+import { response } from "msw";
 
 
 const priority_choices = {
@@ -37,21 +38,22 @@ const Task = (props) => {
 
   const [taskStatus, setTaskStatus] = useState(props.task_status);
   const [showStatusUpdateForm, setShowStatusUpdateForm] = useState(true);
+  const [taskCategory, setTaskCategory] = useState([]);
   const handleStatusUpdate = async (newStatus) => {
     setTaskStatus(newStatus);
     setShowStatusUpdateForm(newStatus !== 'COMPLETED');
   };
-
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const [assignedUser, setAssignedUser] = useState(null);
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
-  const currentDate = new Date().setHours(0, 0, 0, 0);
+  const currentDate = new Date();
+  // const dueDate = due_date;
   const isDueDateInPast = new Date(due_date) < currentDate;
   const isDueDateToday =
-    new Date(due_date).setHours(0, 0, 0, 0) === currentDate;
+    new Date(due_date) === currentDate;
 
   const openModal = () => {
     setShowModal(true);
@@ -70,6 +72,20 @@ const Task = (props) => {
     }
   };
 
+    // Fetch task categories from the API
+    useEffect(() => {
+      const fetchTaskCategory = async () => {
+        try {
+          const response = await axiosReq.get(`/categories/${category}`);
+          setTaskCategory(response.data.title);
+        } catch (error) {
+          console.error('Error fetching category options:', error);
+        }
+      };
+      
+      fetchTaskCategory();
+    }, [category]);
+    
   useEffect(() => {
     if (assigned_to) {
       axios.get(`/profiles/${assigned_to}`).then((response) => {
@@ -92,22 +108,39 @@ const Task = (props) => {
           <div className="d-flex row-cols-4 justify-content-between align-items-center">
             <span className="col-md-3">
               Created<br />
-              {created_date}
+              {new Date(created_date).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
             </span>
             {isDueDateInPast && task_status !== 'COMPLETED' && showStatusUpdateForm ? (
               <span className={`col-md-3 ms-auto ${styles.OverDue}`}>
                 Overdue<br />
-                {due_date}
+                {new Date(due_date).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
               </span>
             ) : isDueDateToday && task_status !== 'COMPLETED' && showStatusUpdateForm ? (
               <span className={`col-md-3 ms-auto ${styles.DueToday}`}>
                 Due Today<br />
-                {due_date}
+                {new Date(due_date).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
               </span>
             ) : (
               <span className="col-md-3 ms-auto">
                 Due on<br />
-                {due_date}
+                {/* {due_date} */}
+                {new Date(due_date).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
               </span>
             )}
             {task_status !== 'COMPLETED' && taskPage && showStatusUpdateForm ? (
@@ -122,7 +155,12 @@ const Task = (props) => {
               <>
               {task_status === 'COMPLETED' || taskStatus === 'COMPLETED' ? (
                 <span className={`col-md-3 ms-auto ${styles.Completed}`}>
-                  Completed on<br/>{completed_date ? completed_date.substr(0, 10) : ''}
+                  Completed on<br/>
+                  {new Date(completed_date).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
                 </span>
               ) : null}
               </>
@@ -159,7 +197,7 @@ const Task = (props) => {
             {/* Category */}
             <span className="col-md-3">
               <i className="far fa-folder" />
-              Category: {category}
+              Category: {taskCategory}
             </span>
 
             {/* Task Status */}

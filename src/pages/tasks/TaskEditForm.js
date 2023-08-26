@@ -24,10 +24,11 @@ function TaskEditForm() {
   const [selectedDate, setSelectedDate] = useState('');
   const [taskStatusChoices, setTaskStatusChoices] = useState([{'value': '', 'label': ''}]);
   const [taskPriorityChoices, setTaskPriorityChoices] = useState([{'value': '', 'label': ''}]);
-    const [
+  const [
     taskCategoryChoices,
     setTaskCategoryChoices
-    ] = useState([{'value': '', 'label': ''}]);
+  ] = useState([{'value': '', 'label': ''}]);
+  const [taskCategory, setTaskCategory] = useState([]);
 
   // Fetch profiles from the API
   useEffect(() => {
@@ -97,6 +98,7 @@ function TaskEditForm() {
     completed_date: '',
     assigned_to: '',
   });
+
   const {
     title,
     description,
@@ -113,6 +115,10 @@ function TaskEditForm() {
   const history = useHistory();
   const {id} = useParams();
 
+  // Populate due date field with existing due date
+  useEffect(() => {
+    setSelectedDate(taskData.due_date);
+  }, [taskData.due_date]);
   useEffect(() => {
     const handleMount = async () => {
       try {
@@ -153,6 +159,20 @@ function TaskEditForm() {
     handleMount();
   }, [history, id]);
 
+  // Fetch task categories from the API
+    useEffect(() => {
+      const fetchTaskCategory = async () => {
+        try {
+          const response = await axiosReq.get(`/categories/${category}`);
+          setTaskCategory(response.data.title);
+        } catch (error) {
+          console.error('Error fetching category options:', error);
+        }
+      };
+      
+      fetchTaskCategory();
+    }, []);
+
   const handleChange = (event) => {
     setTaskData({
       ...taskData,
@@ -169,6 +189,7 @@ function TaskEditForm() {
       });
     }
   };
+
 
   const handleChangeDate = (event) => {
     setSelectedDate(event.target.value);
@@ -189,6 +210,7 @@ function TaskEditForm() {
     formData.append('priority', taskData.priority);
     formData.append('owner', owner);
     formData.append('due_date', selectedDate);
+    console.log('selectedDate', selectedDate);
     formData.append('assigned_to', assigned_to);
 
     if (imageInput?.current?.files[0]) {
@@ -232,7 +254,7 @@ function TaskEditForm() {
         <Form.Control
           as="select"
           name="category"
-          value={category.id}
+          value={category}
           onChange={handleChange}
           aria-label="task category"
         >
@@ -257,6 +279,7 @@ function TaskEditForm() {
         <Form.Label>Due Date</Form.Label>
         <Form.Control
           type="date"
+          id="dueDateInput"
           name="due_date"
           value={selectedDate}
           onChange={handleChangeDate}
