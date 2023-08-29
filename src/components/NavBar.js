@@ -45,7 +45,7 @@ console.log('currentUser: ', currentUser);
       activeClassName={styles.Active}
       to="/categories/create"
     >
-      <i className="far fa-plus-square"></i>
+      <i className="fas fa-folder-plus"></i>
       Add category
     </NavLink>
   );
@@ -73,14 +73,18 @@ console.log('currentUser: ', currentUser);
         to="/"
         onClick={handleSignOut}
       >
-        <i className="fas fa-sign-out-alt"></i>
+        <i className="fas fa-person-walking-arrow-right"></i>
         Sign out
       </NavLink>
       <NavLink
         className={styles.NavLink}
         to={`/profiles/${currentUser?.profile_id}`}
       >
-        <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
+        <Avatar
+          src={currentUser?.profile_image}
+          text="Profile"
+          height={30}
+        />
       </NavLink>
     </>
   );
@@ -111,7 +115,7 @@ console.log('currentUser: ', currentUser);
         <NavLink to='/'>
           <Navbar.Brand className={styles.Brand}>
             <i className="fa-solid fa-calendar-check"></i>
-            <em><strong>TICKED</strong> OFF</em>
+            <em><strong>TICK</strong> OFF</em>
           </Navbar.Brand>
         </NavLink>
         {currentUser && addTaskIcon}

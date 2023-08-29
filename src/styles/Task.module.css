@@ -1,7 +1,7 @@
 .Task {
-    background-color: #ffffff;
-    border: 1px solid #dadadf;
-    border-radius: 2px;
+    background-color: #32383C;
+    border: 1px solid #40474c;
+    border-radius: 5px;
     margin-bottom: 16px;
     text-align: center;
 }
@@ -20,7 +20,7 @@ h5 {
 }
 
 .TaskBody {
-    background-color: #fff;
+    background-color: #32383C;
 }
 
 .Eye {
@@ -28,7 +28,7 @@ h5 {
 }
 
 .Eye:hover {
-    color: #663399;
+    color: #FF5700;
 }
 
 .EyeOutline:hover {
@@ -36,7 +36,7 @@ h5 {
 }
 
 .TaskBar {
-    background-color: #f4f4f4;
+    background-color: #32383C;
     margin-top: 1em;
 }
 

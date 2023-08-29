@@ -35,7 +35,6 @@ checkAPIConnection();
 
 function TaskList({ message, filter = "" }) {
   
-  // const [tasks, setTasks] = useState([]);
   const [tasks, setTasks] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
@@ -67,30 +66,6 @@ function TaskList({ message, filter = "" }) {
       }
     };
 
-    // const fetchTasks = async () => {
-    //   try {
-    //     let url = `/tasks/?${filter}`;
-    //     if (query) {
-    //       url += `&search=${query}`;
-    //     }
-    //     if (taskStatus) {
-    //       url += `&task_status=${taskStatus}`;
-    //     }
-    //     if (taskPriority) {
-    //       url += `&priority=${taskPriority}`;
-    //     }
-    //     const { data } = await axiosReq.get(url);
-    //     setTasks(prevState => ({
-    //       ...prevState,
-    //       results: [...prevState.results, ...data.results],
-    //       next: data.next
-    //     }));
-    //     setHasLoaded(true);
-    //   } catch (err) {
-    //     // handle error
-    //   }
-    // };
-
   
   setHasLoaded(false);
   // stop results flashing - fetch after 1s delay
@@ -108,7 +83,7 @@ function TaskList({ message, filter = "" }) {
 
 return (
   <Row className="h-100">
-      <Col className="py-2 p-0 p-lg-2" lg={8}>
+      <Col className="py-2 p-0 p-lg-2 MainCol" lg={8}>
         <ProfileList mobile />
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         <SearchBar query={query} setQuery={setQuery} taskCount={tasks.count} />
@@ -140,7 +115,7 @@ return (
           </Container>
         )}
       </Col>
-      <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
+      <Col md={4} className="d-none d-lg-block p-0 p-lg-2 MainCol">
         {/* <ProfileList /> */}
       </Col>
     </Row>

@@ -1,6 +1,5 @@
 .NavBar {
-    background-color: #ffffff;
-    border: 1px solid #dadadf;
+    background-color: #333337;
   }
 
 .Brand {
@@ -12,7 +11,7 @@
 .Brand strong,
 .Brand em,
 .Brand i {
-  color: #663399;
+  color: #FF5700;
 }
 
 .Brand i {
@@ -27,16 +26,31 @@
     color: initial;
 }
 
+.NavLink,
+.NavLink i {
+  color: #BDC3C7;
+}
+
 .NavLink {
-    padding: 5px;
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.NavLink:not(:last-child) {
+  margin-right: 1.6em;
+}
 
 .NavLink .Avatar {
   margin-top: 0;
 }
   
+.NavLink:hover,
+.Active,
 .Active i {
-    color: #639;
+    color: #FF5700;
   }
+
+.NavLink.active {
+  border-bottom-color: #FF5700;
+}
