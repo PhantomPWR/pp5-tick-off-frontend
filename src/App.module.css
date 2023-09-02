@@ -9,10 +9,10 @@
 }
 
 .Content {
-  background-color: #ffffff;
+  background-color: #4a5359;
   padding: 10px;
   border-radius: 2px;
-  border: 1px solid #dadadf;
+  border: 0;
   position: relative;
 }
 
@@ -40,24 +40,30 @@ strong {
 }
 
 a {
+  border-bottom: 1px solid transparent;
   font-weight: 500;
-  transition: color ease-in-out 0.3s;
-  border-bottom: 2px solid transparent;
   text-decoration: none;
 }
 
+a,
 a:hover {
-  border-color: #FF5700;
+  transition: all ease-in-out 0.3s;
 }
 
 a:hover,
 a:hover i {
   color: #FF5700;
-  transition: color ease-in-out 0.3s;
 }
 
 input[type="file"] {
   display: none;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+  border-radius: 5px;
 }
 
 i {
@@ -68,7 +74,6 @@ i {
 
 .Link i:hover {
   cursor: pointer;
-  transition: color ease-in-out 0.3s;
   color: #FF5700;
   text-decoration: none;
 }
@@ -91,3 +96,4 @@ figure {
 *::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+

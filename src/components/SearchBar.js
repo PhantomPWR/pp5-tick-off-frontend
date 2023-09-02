@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { axiosReq } from "../api/axiosDefaults";
 
 import styles from '../styles/SearchBar.module.css';
@@ -59,12 +60,11 @@ function SearchBar({ query, setQuery, taskCount }) {
         </div>
       </div>
 
-      <div className="row row-cols-4 mb-3 justify-content-even">
+      <div className="row row-cols-4 mb-3 justify-content-even g-3">
         {/* Task Category */}
         <div className="col">
           <Form.Control
-            className="text-center"
-            size="sm"
+            className={`form-select ${styles.Select}`}
             as="select"
             name="task_category"
             onChange={(event) => setQuery(event.target.value)}
@@ -83,8 +83,7 @@ function SearchBar({ query, setQuery, taskCount }) {
         {/* Task Status */}
         <div className="col">
           <Form.Control
-            className="text-center"
-            size="sm"
+            className={`form-select ${styles.Select}`}
             as="select"
             name="task_status"
             onChange={(event) => setQuery(event.target.value)}
@@ -101,22 +100,21 @@ function SearchBar({ query, setQuery, taskCount }) {
         {/* Task Priority */}
         <div className="col">
           <Form.Control
-            className="text-center"
-            size="sm"
+            className={`form-select ${styles.Select}`}
             as="select"
             name="priority"
             onChange={(event) => setQuery(event.target.value)}
             aria-label="task priority"
           >
             <option value="">Select priority</option>
-            <option key="PRIORITY1" value="PRIORITY1">Priority 1</option>
-            <option key="PRIORITY2" value="PRIORITY2">Priority 2</option>
-            <option key="PRIORITY3" value="PRIORITY3">Priority 3</option>
+            <option key="PRIORITY1" value="PRIORITY1">High</option>
+            <option key="PRIORITY2" value="PRIORITY2">Medium</option>
+            <option key="PRIORITY3" value="PRIORITY3">Low</option>
           </Form.Control>
         </div>
         {/* Clear filters */}
         <div className="col text-end">
-          <Button className="btn btn-sm mx-auto" type="button" onClick={clearForm}>
+          <Button className={styles.OrangeOutline} type="button" onClick={clearForm}>
             Clear filters
           </Button>
         </div>

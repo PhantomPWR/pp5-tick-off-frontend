@@ -45,17 +45,29 @@ h5 {
     text-decoration: none;
 }
 
+.Meta {
+    font-weight: 600;
+}
+
+.StatusBadge {
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.DueDate {
+    border: 1px solid;
+    color: #BDC3C7;
+}
+
 .OverDue {
-    border: 2px solid red;
-    color: red;
+    background-color: red;
 }
 
 .DueToday {
-    border: 2px solid darkorange;
-    color: darkorange;
+    background-color: darkorange;
 }
 
 .Completed {
-    border: 2px solid green;
-    color: green;
+    background-color: green;
 }

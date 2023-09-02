@@ -48,9 +48,11 @@
 .NavLink:hover,
 .Active,
 .Active i {
-    color: #FF5700;
-  }
+  border-color: #FF5700;
+  color: #FF5700;
+}
 
+.NavLink:hover,
 .NavLink.active {
   border-bottom-color: #FF5700;
 }

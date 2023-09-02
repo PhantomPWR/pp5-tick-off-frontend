@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Form from 'react-bootstrap/Form';
-
 import axios from "axios";
+import styles from "../styles/StatusUpdateForm.module.css";
 
 const status_choices = {
   BACKLOG: "Backlog",
@@ -65,7 +65,7 @@ const StatusUpdateForm = ({ taskId, currentStatus, onUpdateStatus }) => {
   return (
     <Form>
       <div className="form-group">
-        <select className="form-control text-center" value={newStatus} onChange={handleStatusChange}>
+        <select className={`form-select ${styles.Select}`} value={newStatus} onChange={handleStatusChange}>
           <option value="">Select status</option>
           {Object.keys(status_choices).map((status) => (
             <option key={status} value={status}>

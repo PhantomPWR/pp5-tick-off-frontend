@@ -1,8 +1,14 @@
+.Button,
+.Button:hover {
+  transition: all ease-in-out 0.3s;
+}
+
 .Button {
-  font-size: 0.8rem;
+  background-color: #FF5700;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-weight: 500;
   align-self: center;
-  border-radius: 100px;
-  border-color: transparent;
   padding: 4px 10px;
   margin-left: 2px;
   margin-right: 2px;
@@ -32,32 +38,34 @@
   width: 100%;
 }
 
-.Blue,
-.BlueOutline:hover,
-.Bright:hover {
+.Orange,
+.Orange:hover {
   background-color: #FF5700;
   color: #ffffff;
 }
 
-.BlueOutline,
-.Blue:hover {
+.OrangeOutline {
+  background-color: transparent;
+}
+.Orange:hover {
   background-color: #ffffff;
+  border-color: #FF5700;
   color: #FF5700;
 }
 
-.Black,
-.BlackOutline:hover {
+.Orange,
+.OrangeOutline:hover {
   background-color: #242a3d;
-  color: aliceblue;
-}
-
-.Black:hover,
-.BlackOutline {
-  background-color: aliceblue;
-  color: #242a3d;
-}
-
-.Bright {
-  background-color: #2ed9ff;
   color: #FF5700;
+}
+
+.Orange:hover,
+.OrangeOutline {
+  background-color: #FF5700;
+  color: #fff;
+}
+
+.Orange {
+  background-color: #FF5700;
+  color: #fff;
 }

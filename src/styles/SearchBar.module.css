@@ -1,8 +1,17 @@
+.SearchBar input,
+.SearchBar input.form-control:focus {
+    background-color: #4a5359!important;
+    border-color: #4a5359!important;
+    box-shadow: none!important;
+    color: #BDC3C7!important;
+}
+.SearchBar input::placeholder {
+    color: #BDC3C7 !important;
+}
 .SearchBar input {
-    border-radius: 20px;
-    color: #242a3d;
-    padding-left: 40px;
+    border-radius: 5px;
     margin-bottom: 16px;
+    padding-left: 40px;
 }
 
 .SearchIcon {
@@ -15,4 +24,30 @@
 .SearchIcon:hover {
     cursor: default;
     color: #cfced3;
+}
+
+/* form elements */
+.Select,
+.Select:focus {
+    background-color: #4A5358;
+    border: 0;
+    box-shadow: none;
+    color: #BDC3C7;
+}
+.Select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23FF5700' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    padding: .175rem 2.25rem .275rem .75rem;
+}
+
+.OrangeOutline {
+    background-color: transparent;
+    border-color: #FF5700;
+    color: #FF5700;
+    padding: .175rem .75rem .275rem .75rem;
+    text-align: center;
+}
+
+.OrangeOutline:hover {
+    background-color: #FF5700;
+    border-color: #FF5700;
 }

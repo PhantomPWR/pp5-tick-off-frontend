@@ -82,8 +82,8 @@ function TaskList({ message, filter = "" }) {
 
 
 return (
-  <Row className="h-100">
-      <Col className="py-2 p-0 p-lg-2 MainCol" lg={8}>
+  <Container className="h-100">
+      <div className="py-2 p-0 p-lg-2 MainCol">
         <ProfileList mobile />
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         <SearchBar query={query} setQuery={setQuery} taskCount={tasks.count} />
@@ -114,11 +114,8 @@ return (
             <Asset spinner />
           </Container>
         )}
-      </Col>
-      <Col md={4} className="d-none d-lg-block p-0 p-lg-2 MainCol">
-        {/* <ProfileList /> */}
-      </Col>
-    </Row>
+      </div>
+  </Container>
   );
 }
 

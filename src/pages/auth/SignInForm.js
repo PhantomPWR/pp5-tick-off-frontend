@@ -50,7 +50,7 @@ function SignInForm() {
       <Col className='m-auto p-0 p-md-2' md={6}>
         <Container className={`${appStyles.Content} p-4`}>
           <h1 className={styles.Header}>sign in</h1>
-          <p className='text-center'>Welcome to Ticked Off</p>
+          <p className='text-center'>Welcome to Tick Off</p>
           <p className='text-center'>Sign in or register to start ticking off your tasks.</p>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId='username'>
@@ -87,7 +87,7 @@ function SignInForm() {
               </Alert>
             ))}
             <Button
-              className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
+              className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Orange}`}
               type='submit'
             >
               Sign in
