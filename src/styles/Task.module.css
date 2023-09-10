@@ -1,73 +1,82 @@
 .Task {
-    background-color: #32383C;
-    border: 1px solid #40474c;
-    border-radius: 5px;
-    margin-bottom: 16px;
-    text-align: center;
+	background-color: #32383c;
+	border: 1px solid #40474c;
+	border-radius: 5px;
+	margin-bottom: 16px;
+	text-align: center;
+}
+
+.TaskTitle {
+	color: #bdc3c7;
+	font-weight: 800;
 }
 
 .Task figure,
 h5 {
-    margin: 0 0;
+	margin: 0 0;
 }
 
- .Task i {
-    font-size: 1.2em;
- }
+.Task i {
+	font-size: 1.2em;
+}
 
 .Task a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .TaskBody {
-    background-color: #32383C;
+	background-color: #32383c;
 }
 
 .Eye {
-    color: #f85032;
+	color: #f85032;
 }
 
 .Eye:hover {
-    color: #FF5700;
+	color: #fa6800;
 }
 
 .EyeOutline:hover {
-    color: #f85032;
+	color: #f85032;
 }
 
 .TaskBar {
-    background-color: #32383C;
-    margin-top: 1em;
+	background-color: #32383c;
+	margin-top: 1em;
 }
 
 .TaskBar a:hover {
-    border-color: transparent;
-    text-decoration: none;
+	border-color: transparent;
+	text-decoration: none;
 }
 
 .Meta {
-    font-weight: 600;
+	font-weight: 500;
+}
+
+.MetaDetail {
+	font-size: 0.9em;
 }
 
 .StatusBadge {
-    border-radius: 10px;
-    color: #fff;
-    font-weight: 500;
+	border-radius: 10px;
+	color: #fff;
+	font-weight: 500;
 }
 
 .DueDate {
-    border: 1px solid;
-    color: #BDC3C7;
+	border: 1px solid;
+	color: #bdc3c7;
 }
 
 .OverDue {
-    background-color: red;
+	background-color: red;
 }
 
 .DueToday {
-    background-color: darkorange;
+	background-color: darkorange;
 }
 
 .Completed {
-    background-color: green;
+	background-color: green;
 }

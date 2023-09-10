@@ -35,14 +35,8 @@ const Task = (props) => {
     taskPage,
 
   } = props;
+  
 
-  const [taskStatus, setTaskStatus] = useState(props.task_status);
-  const [showStatusUpdateForm, setShowStatusUpdateForm] = useState(true);
-  const [taskCategory, setTaskCategory] = useState([]);
-  const handleStatusUpdate = async (newStatus) => {
-    setTaskStatus(newStatus);
-    setShowStatusUpdateForm(newStatus !== 'COMPLETED');
-  };
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
@@ -53,6 +47,14 @@ const Task = (props) => {
   const isDueDateInPast = new Date(due_date).setHours(0,0,0,0) < currentDate.setHours(0,0,0,0);
   const isDueDateToday =
   new Date(due_date).toLocaleDateString() === currentDate.toLocaleDateString();
+
+  const [taskStatus, setTaskStatus] = useState(props.task_status);
+  const [showStatusUpdateForm, setShowStatusUpdateForm] = useState(true);
+  const [taskCategory, setTaskCategory] = useState([]);
+  const handleStatusUpdate = async (newStatus) => {
+    setTaskStatus(newStatus);
+    setShowStatusUpdateForm(newStatus !== 'COMPLETED');
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -105,7 +107,7 @@ const Task = (props) => {
               <Row className="row-cols-2 d-flex justify-content-between align-items-center">
                 <Col className="text-start">
                   {title && (
-                    <Card.Title className="fs-4">{title}</Card.Title>
+                    <Card.Title className={`fs-4 ${styles.TaskTitle}`}>{title}</Card.Title>
                   )}
                 </Col>
                 <Col className="text-end">
@@ -153,6 +155,11 @@ const Task = (props) => {
             </Link>
           ):null}
           {/* Task Detail Header */}
+          <div className="row text-center">
+             {taskPage && title && (
+                    <Card.Title className={`fs-4 mb-5 ${styles.TaskTitle}`}>{title}</Card.Title>
+                  )}
+          </div>
           <div className="d-flex row-cols-4 justify-content-between align-items-center">
             {taskPage && (
               <span className="col-md-3">
@@ -228,67 +235,66 @@ const Task = (props) => {
       </Card.Body>
 
       <Card.Body className={styles.TaskBody}>
+        {/* Task List Body */}
         {!taskPage ? (
           <Row className="row-cols-2">
-            <Col className={`d-flex justify-content-start align-items-center ${styles.Meta}`}>
-              <span className="me-2"><i className="fas fa-triangle-exclamation"></i>Priority:</span>
-              <span>{priority_choices[priority]}</span>
+            <Col className={`d-flex flex-column justify-content-center align-items-start ${styles.Meta}`}>
+              <div className={styles.MetaDetail}>
+                {/* Owner */}
+                <span className="me-1">
+                  <i className="fas fa-crown"/>
+                  {owner}
+                </span>
+              </div>
+              <div className={styles.MetaDetail}>
+                {/* Assigned User */}
+                <span className="me-1">
+                  <i className="fas fa-user-check"/>
+                  {assignedUser}
+                </span>
+              </div>
+              <div className={styles.MetaDetail}>
+                {/* Comment Count */}
+                <span className="me-1">
+                  <i className="far fa-comments" />
+                  {comment_count}
+                </span>
+              </div>
             </Col>
-            <Col className={`d-flex justify-content-end align-items-center ${styles.Meta}`}>
-                <span className="me-2"><i className="fas fa-user-check"/>Assigned to:</span>
-                <span>{assignedUser}</span>
+            <Col className={`d-flex flex-column justify-content-center align-items-end ${styles.Meta}`}>
+              <div className="d-flex flex-column align-items-start">
+                <div className={styles.MetaDetail}>
+                  <span className="me-1">
+                    <i className="fas fa-triangle-exclamation"></i>
+                    {priority_choices[priority]}
+                  </span>
+                </div>
+                <div className={styles.MetaDetail}>
+                  {/* Task Status */}
+                  <span className="me-1">
+                    <i className="fas fa-list-check"></i>
+                    { !taskStatus ? (
+                      <TaskStatus taskStatus={task_status} />
+                    ) : (
+                      <TaskStatus taskStatus={taskStatus} />
+                    ) }
+                  </span>
+                </div>
+                <div className={styles.MetaDetail}>
+                  {/* Category */}
+                  <span className="me-1">
+                    <i className="far fa-folder" />
+                    {taskCategory}
+                  </span>
+              </div>
+              </div>
             </Col>
           </Row>
         ) : (
-          <div className={styles.TaskBar}>
-            {/* Assigned User */}
-            <div align="center">
-              <strong className="fw-bold">Assigned to: </strong>
-              <div className="row">
-                <p className="col-6">
-                  <i className="fas fa-crown"></i>
-                  {owner}
-                </p>
-                <p className="col-6">
-                  <i className="fas fa-user-check" />
-                  {assignedUser}
-                </p>
-              </div>
-            </div>
-            <div className="row">
-              {/* Category */}
-              <span className="col-md-3">
-                <i className="far fa-folder" />
-                Category: {taskCategory}
-              </span>
+          // Task Detail Body
+          <>
+          <Card.Body className={!taskPage ? "py-0" : ""}>
 
-              {/* Task Status */}
-              <span className="col-md-3">
-                <span><i className="fas fa-list-check"></i>Status:  </span>
-                { !taskStatus ? (
-                  <TaskStatus taskStatus={task_status} />
-                ) : (
-                  <TaskStatus taskStatus={taskStatus} />
-                ) }
-              </span>
-
-              {/* Priority */}
-              <span className="col-md-3">
-                <i className="fas fa-triangle-exclamation"></i>
-                Priority: {priority_choices[priority]}
-              </span>
-
-              {/* Comment Count */}
-              <span className="col-md-3">
-                <i className="far fa-comments" />
-                Comments: {comment_count}
-              </span>
-            </div>
-          </div>
-        )}
-        
-      </Card.Body>
-      <Card.Body>
         <div className="row row-cols-1 row-cols-lg-4 justify-content-between">
           <div className="col col-lg-8">
             {taskPage && description && (
@@ -321,6 +327,49 @@ const Task = (props) => {
             </div>
           )}
         </div>
+      </Card.Body>
+          <div className={styles.TaskBar}>
+            {/* Assigned User */}
+            <div align="center">
+              <strong className="fw-bold">Assigned to: </strong>
+              <div className="row">
+                <p className="col-6">
+                  <i className="fas fa-crown"></i>
+                  {owner}
+                </p>
+                <p className="col-6">
+                  <i className="fas fa-user-check" />
+                  {assignedUser}
+                </p>
+              </div>
+            </div>
+            <div className="row row-cols-3 justify-content-between">
+              {/* Category */}
+              <span className="col">
+                <i className="far fa-folder" />
+                Category: {taskCategory}
+              </span>
+
+              {/* Task Status */}
+              <span className="col">
+                <span><i className="fas fa-list-check"></i>Status:  </span>
+                { !taskStatus ? (
+                  <TaskStatus taskStatus={task_status} />
+                ) : (
+                  <TaskStatus taskStatus={taskStatus} />
+                ) }
+              </span>
+
+              {/* Priority */}
+              <span className="col">
+                <i className="fas fa-triangle-exclamation"></i>
+                Priority: {priority_choices[priority]}
+              </span>
+            </div>
+          </div>
+          </>
+        )}
+        
       </Card.Body>
     </Card>
   );

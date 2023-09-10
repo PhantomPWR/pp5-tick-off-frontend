@@ -55,7 +55,7 @@ function SearchBar({ query, setQuery, taskCount }) {
         </div>
         <div className="col-3 text-center">
           <p className="me-sm-2">
-            Results: {taskCount}
+            Search results: {taskCount}
           </p>
         </div>
       </div>

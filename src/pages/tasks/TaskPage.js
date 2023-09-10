@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap"
 
 import appStyles from "../../App.module.css";
+import styles from "../../styles/TaskPage.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Task from "./Task";
@@ -43,6 +44,7 @@ function TaskPage() {
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2">
         <Task {...task.results[0]} setTasks={setTask} taskPage />
+        <h5 className={styles.SectionHeading}>Discussion</h5>
         <Container className={appStyles.Content}>
           {currentUser ? (
             <CommentCreateForm

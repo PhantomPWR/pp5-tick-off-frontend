@@ -115,7 +115,9 @@ console.log('currentUser: ', currentUser);
         <NavLink to='/'>
           <Navbar.Brand className={styles.Brand}>
             <i className="fa-solid fa-calendar-check"></i>
-            <em><strong>TICK</strong> OFF</em>
+            <span>
+            <strong>TICK</strong> <em>OFF</em>
+            </span>
           </Navbar.Brand>
         </NavLink>
         {currentUser && addTaskIcon}
