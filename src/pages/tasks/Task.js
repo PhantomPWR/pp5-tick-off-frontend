@@ -1,16 +1,33 @@
+// React library & hooks
 import React, { useState, useEffect } from "react";
-import styles from "../../styles/Task.module.css";
+
+// Context hooks
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
+
+// react-router-dom components for page navigation
 import { Link, useHistory } from "react-router-dom";
-import { MoreDropdown } from "../../components/MoreDropdown";
+
+// Axios library for HTTP requests
 import axios from "axios";
 import { axiosReq, axiosRes } from "../../api/axiosDefaults";
-import StatusUpdateForm from "../../components/StatusUpdateForm";
+
+// Reusable components
+import { MoreDropdown } from "../../components/MoreDropdown";
 import TaskStatus from "../../components/TaskStatus";
-import { Card, Row, Col, Media, Modal } from "react-bootstrap";
+import StatusUpdateForm from "../../components/StatusUpdateForm";
+
+// Bootstrap components
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import Media from "react-bootstrap/Media";
+import Modal from "react-bootstrap/Modal";
 import { response } from "msw";
 
+// Styles
+import styles from "../../styles/Task.module.css";
 
+// Define priority choices
 const priority_choices = {
   PRIORITY1: "High",
   PRIORITY2: "Medium",
@@ -18,6 +35,7 @@ const priority_choices = {
 };
 
 const Task = (props) => {
+  // Destructure task props
   const {
     id,
     owner,
@@ -33,13 +51,15 @@ const Task = (props) => {
     completed_date,
     comment_count,
     taskPage,
-
   } = props;
-  
 
-
+  // Get current user from context
   const currentUser = useCurrentUser();
+
+  // Check if current user is task owner
   const is_owner = currentUser?.username === owner;
+
+  // Set up state variables
   const [assignedUser, setAssignedUser] = useState(null);
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
@@ -51,19 +71,24 @@ const Task = (props) => {
   const [taskStatus, setTaskStatus] = useState(props.task_status);
   const [showStatusUpdateForm, setShowStatusUpdateForm] = useState(true);
   const [taskCategory, setTaskCategory] = useState([]);
+
+  // Handle task status update
   const handleStatusUpdate = async (newStatus) => {
     setTaskStatus(newStatus);
     setShowStatusUpdateForm(newStatus !== 'COMPLETED');
   };
 
+  // Open modal
   const openModal = () => {
     setShowModal(true);
   };
 
+  // Handle task edit
   const handleEdit = () => {
     history.push(`/tasks/${id}/edit`);
   };
 
+  // Handle task delete
   const handleDelete = async () => {
     try {
       await axiosRes.delete(`/tasks/${id}/`);
@@ -86,7 +111,8 @@ const Task = (props) => {
       
       fetchTaskCategory();
     }, [category]);
-    
+  
+  // Fetch assigned user
   useEffect(() => {
     if (assigned_to) {
       axios.get(`/profiles/${assigned_to}`).then((response) => {

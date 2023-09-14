@@ -1,6 +1,13 @@
-import React, { useEffect, useState, useCallback } from "react";
-import Form from 'react-bootstrap/Form';
+// React library & hooks
+import React, {useState, useEffect} from "react";
+
+// Axios library for HTTP requests
 import axios from "axios";
+
+// Bootstrap components
+import Form from 'react-bootstrap/Form';
+
+// Styles
 import styles from "../styles/StatusUpdateForm.module.css";
 
 const status_choices = {
@@ -18,49 +25,31 @@ const StatusUpdateForm = ({ taskId, currentStatus, onUpdateStatus }) => {
     setNewStatus(e.target.value);
   };
 
-  const submitForm = useCallback(async () => {
-    setLoading(true);
-    try {
-      await axios.patch(`/tasks/${taskId}/`, { task_status: newStatus });
-      onUpdateStatus(newStatus);
-    } catch (err) {
-      // Handle error
-    }
-    setLoading(false);
-  }, [taskId, newStatus, onUpdateStatus]);
-
-  // useEffect(() => {
-  //   if (newStatus !== currentStatus && newStatus !== "") {
-  //     submitForm();
-  //   }
-  // }, [newStatus, currentStatus, submitForm]);
-
   useEffect(() => {
-  let cancelRequest = false;
+    let cancelRequest = false;
 
-  const submitForm = async () => {
-    setLoading(true);
-    try {
-      await axios.patch(`/tasks/${taskId}/`, { task_status: newStatus });
-      if (!cancelRequest) {
-        onUpdateStatus(newStatus);
+    const submitForm = async () => {
+      setLoading(true);
+      try {
+        await axios.patch(`/tasks/${taskId}/`, { task_status: newStatus });
+        if (!cancelRequest) {
+          onUpdateStatus(newStatus);
+        }
+      } catch (err) {
+        // Handle error
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      // Handle error
-    } finally {
-      setLoading(false);
+    };
+
+    if (newStatus !== currentStatus && newStatus !== "") {
+      submitForm();
     }
-  };
 
-  if (newStatus !== currentStatus && newStatus !== "") {
-    submitForm();
-  }
-
-  return () => {
-    cancelRequest = true;
-  };
-}, [newStatus, currentStatus, onUpdateStatus, taskId]);
-
+    return () => {
+      cancelRequest = true;
+    };
+  }, [newStatus, currentStatus, onUpdateStatus, taskId]);
 
   return (
     <Form>

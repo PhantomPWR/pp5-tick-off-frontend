@@ -1,47 +1,51 @@
+// React library & hooks
 import React, { useEffect, useState } from "react";
 
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+// Context hooks
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-import Task from "./Task";
-import Asset from "../../components/Asset";
-
-import appStyles from "../../App.module.css";
-import styles from "../../styles/TaskList.module.css";
+// react-router-dom components for page navigation
 import { useLocation, useParams } from "react-router-dom";
+
+// Axios library for HTTP requests
 import { axiosReq } from "../../api/axiosDefaults";
 
-import NoResults from "../../assets/no-results.png";
-import InfiniteScroll from "react-infinite-scroll-component";
+// Utils
 import { fetchMoreData } from "../../utils/utils";
+
+// React components
+import InfiniteScroll from "react-infinite-scroll-component";
+
+// Reusable components
+import APIConnectionCheck from "../../components/APIConnectionCheck";
+import Asset from "../../components/Asset";
 import ProfileList from "../profiles/ProfileList";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import SearchBar from "../../components/SearchBar";
+import Task from "./Task";
 
-const checkAPIConnection = () => {
-  axiosReq.get('/tasks/')
-    .then(response => {
-      // API is connected
-      console.log('API connection successful');
-    })
-    .catch(error => {
-      // Error connecting to API
-      console.error('API connection failed', error);
-    });
-};
+// Bootstrap components
+import Container from "react-bootstrap/Container";
 
-checkAPIConnection();
+// Styles
+import appStyles from "../../App.module.css";
+import styles from "../../styles/TaskList.module.css";
+
+// Assets
+import NoResults from "../../assets/no-results.png";
+
 
 function TaskList({ message, filter = "" }) {
   
+  // Set up state variables
   const [tasks, setTasks] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
   const { taskStatus, taskPriority } = useParams();
-
   const [query, setQuery] = useState('');
+
+  // Check API connection to tasks
+  APIConnectionCheck('tasks');
 
   useEffect(() => {
 
@@ -60,13 +64,11 @@ function TaskList({ message, filter = "" }) {
         const { data } = await axiosReq.get(url);
         setTasks(data);
         setHasLoaded(true);
-        // console.log('tasks: ', tasks);
       } catch (err) {
         // console.log(err);
       }
     };
 
-  
   setHasLoaded(false);
   // stop results flashing - fetch after 1s delay
   const timer = setTimeout(() => {

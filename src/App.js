@@ -1,25 +1,40 @@
-import styles from './App.module.css';
-import NavBar from './components/NavBar';
-import { Container } from 'react-bootstrap';
+// react-router-dom components for routing & page navigation
 import { Route, Switch } from 'react-router-dom';
-import './api/axiosDefaults';
-import SignUpForm from './pages/auth/SignUpForm'
-import SignInForm from './pages/auth/SignInForm';
-import TaskCreateForm from './pages/tasks/TaskCreateForm';
-import TaskList from './pages/tasks/TaskList';
-import TaskPage from './pages/tasks/TaskPage';
+
+// Context hooks
 import { useCurrentUser } from './contexts/CurrentUserContext';
-import TaskEditForm from './pages/tasks/TaskEditForm';
-import ProfilePage from './pages/profiles/ProfilePage';
-import ProfileList from './pages/profiles/ProfileList';
-import UsernameForm from "./pages/profiles/UsernameForm";
-import UserPasswordForm from './pages/profiles/UserPasswordForm';
-import ProfileEditForm from './pages/profiles/ProfileEditForm';
+
+// Axios defaults
+import './api/axiosDefaults';
+
+// Reusable components
+import NavBar from './components/NavBar';
 import NotFound from './components/NotFound';
+
+// Bootstrap components
+import Container from 'react-bootstrap/Container';
+
+// Styles
+import styles from './App.module.css';
+
+// Pages
+import ProfileList from './pages/profiles/ProfileList';
+import ProfilePage from './pages/profiles/ProfilePage';
 import CategoryList from './pages/categories/CategoryList';
 import CategoryPage from './pages/categories/CategoryPage';
+import TaskList from './pages/tasks/TaskList';
+import TaskPage from './pages/tasks/TaskPage';
+
+// Forms
+import SignInForm from './pages/auth/SignInForm';
+import SignUpForm from './pages/auth/SignUpForm'
+import TaskCreateForm from './pages/tasks/TaskCreateForm';
+import TaskEditForm from './pages/tasks/TaskEditForm';
 import CategoryCreateForm from './pages/categories/CategoryCreateForm';
 import CategoryEditForm from './pages/categories/CategoryEditForm';
+import ProfileEditForm from './pages/profiles/ProfileEditForm';
+import UsernameForm from "./pages/profiles/UsernameForm";
+import UserPasswordForm from './pages/profiles/UserPasswordForm';
 
 
 function App() {

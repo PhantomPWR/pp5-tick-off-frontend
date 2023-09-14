@@ -1,27 +1,42 @@
+// React library & hooks
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
-
+// react-router-dom components for page navigation
 import { useHistory, useParams } from "react-router-dom";
-import { axiosRes } from "../../api/axiosDefaults";
+
+// Context hooks
 import {
   useCurrentUser,
   useSetCurrentUser,
 } from "../../contexts/CurrentUserContext";
 
-import btnStyles from "../../styles/Button.module.css";
+// Axios library for HTTP requests
+import { axiosRes } from "../../api/axiosDefaults";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+
+// Styles
 import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css";
+
 
 const UsernameForm = () => {
+
+  // Set up state variables
   const [username, setUsername] = useState("");
   const [errors, setErrors] = useState({});
-
   const history = useHistory();
   const { id } = useParams();
-
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
+  // Check if profile matches current user
   useEffect(() => {
     if (currentUser?.profile_id?.toString() === id) {
       setUsername(currentUser.username);
@@ -30,6 +45,7 @@ const UsernameForm = () => {
     }
   }, [currentUser, history, id]);
 
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

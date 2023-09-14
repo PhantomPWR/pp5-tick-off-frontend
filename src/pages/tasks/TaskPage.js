@@ -1,26 +1,45 @@
-import React, { useState, useEffect } from "react";
+// React library & hooks
+import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col } from "react-bootstrap"
-
-import appStyles from "../../App.module.css";
-import styles from "../../styles/TaskPage.module.css";
-import { useParams } from "react-router";
-import { axiosReq } from "../../api/axiosDefaults";
-import Task from "./Task";
-import Comment from "../comments/Comment"
-import CommentCreateForm from "../comments/CommentCreateForm";
+// Context hooks
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Asset from "../../components/Asset";
+
+// React router useParams hook for getting URL parameters
+import { useParams } from "react-router";
+
+// Axios library for HTTP requests
+import { axiosReq } from "../../api/axiosDefaults";
+
+// Utils
 import { fetchMoreData } from "../../utils/utils";
 
+// Reusable components
+import Asset from "../../components/Asset";
+import Comment from "../comments/Comment"
+import CommentCreateForm from "../comments/CommentCreateForm";
+import Task from "./Task";
+
+import InfiniteScroll from "react-infinite-scroll-component";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+// Styles
+import appStyles from "../../App.module.css";
+import styles from "../../styles/TaskPage.module.css";
+
+
 function TaskPage() {
+  // Set up state variables
   const { id } = useParams();
   const [task, setTask] = useState({ results: [] });
   const currentUser = useCurrentUser();
   const profile_image = currentUser?.profile_image;
   const [ comments, setComments ] = useState({ results: [] });
 
+  // Fetch tasks & comments
   useEffect(() => {
     const handleMount = async () => {
       try {

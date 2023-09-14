@@ -1,24 +1,41 @@
+// React library & hooks
 import React, { useRef, useState, useEffect } from "react";
-import Upload from "../../assets/upload.png";
-import styles from "../../styles/TaskCreateEditForm.module.css";
+
+// react-router-dom components for page navigation
+import { useHistory, useParams } from "react-router-dom";
+
+// Custom hooks
+import { useRedirect } from '../../hooks/useRedirect';
+
+// Axios library for HTTP requests
+import axios from "axios";
+import { axiosReq } from "../../api/axiosDefaults";
+
+// Reusable components
+import Asset from "../../components/Asset";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Image from "react-bootstrap/Image";
+import Alert from "react-bootstrap/Alert";
+
+// Styles
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
-import Asset from "../../components/Asset";
-import { useHistory, useParams } from "react-router-dom";
-import { axiosReq } from "../../api/axiosDefaults";
-import axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Image,
-  Alert
-} from "react-bootstrap"
+import styles from "../../styles/TaskCreateEditForm.module.css";
+import "react-datepicker/dist/react-datepicker.css";
+
+// Assets
+import Upload from "../../assets/upload.png";
+
 
 function TaskEditForm() {
 
+  // Set up state variables
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
@@ -83,7 +100,7 @@ function TaskEditForm() {
     fetchTaskPriorityChoices();
   }, []);
 
-
+  // taskData state variable
   const [taskData, setTaskData] = useState({
     title: '',
     category: '',
@@ -99,6 +116,7 @@ function TaskEditForm() {
     assigned_to: '',
   });
 
+  // Destructure taskData
   const {
     title,
     description,
@@ -119,6 +137,8 @@ function TaskEditForm() {
   useEffect(() => {
     setSelectedDate(taskData.due_date);
   }, [taskData.due_date]);
+
+  // Fetch task data from the API
   useEffect(() => {
     const handleMount = async () => {
       try {
@@ -138,6 +158,8 @@ function TaskEditForm() {
           is_owner
         } = data;
 
+        // Redirect if user is not the owner of the task
+        // otherwise populate the form with the task data
         is_owner ? setTaskData({
           title,
           category,
@@ -173,6 +195,7 @@ function TaskEditForm() {
       fetchTaskCategory();
     }, []);
 
+  // Handle form input change
   const handleChange = (event) => {
     setTaskData({
       ...taskData,
@@ -180,6 +203,7 @@ function TaskEditForm() {
     });
   };
 
+  // Handle image upload
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       URL.revokeObjectURL(image);
@@ -190,7 +214,7 @@ function TaskEditForm() {
     }
   };
 
-
+  // Handle date change
   const handleChangeDate = (event) => {
     setSelectedDate(event.target.value);
     setTaskData({
@@ -199,6 +223,7 @@ function TaskEditForm() {
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -228,7 +253,7 @@ function TaskEditForm() {
     }
   };
 
-
+  // Form fields
   const textFields = (
     <div className="text-center">
       
@@ -284,8 +309,6 @@ function TaskEditForm() {
           value={selectedDate}
           onChange={handleChangeDate}
         />
-
-
       </Form.Group>
       {errors?.description?.map((message, idx) => (
         <Alert variant="warning" key={idx}>

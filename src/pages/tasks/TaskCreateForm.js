@@ -1,20 +1,42 @@
+// React library & hooks
 import React, { useRef, useState, useEffect } from "react";
-import Upload from "../../assets/upload.png";
-import { Container, Row, Col, Form, Button, Image, Alert } from "react-bootstrap"
-import styles from "../../styles/TaskCreateEditForm.module.css";
-import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/Button.module.css";
-import Asset from "../../components/Asset";
+
+// react-router-dom components for page navigation
 import { useHistory } from "react-router-dom";
+
+// Custom hooks
+import { useRedirect } from '../../hooks/useRedirect';
+
+// Axios library for HTTP requests
 import axios from "axios";
 import { axiosReq } from "../../api/axiosDefaults";
-import { useRedirect } from '../../hooks/useRedirect';
+
+// Reusable components
+import Asset from "../../components/Asset";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Image from "react-bootstrap/Image";
+import Alert from "react-bootstrap/Alert";
+
+// Styles
+import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import styles from "../../styles/TaskCreateEditForm.module.css";
 import "react-datepicker/dist/react-datepicker.css";
+
+// Assets
+import Upload from "../../assets/upload.png";
 
 
 function TaskCreateForm() {
   useRedirect('loggedOut');
 
+  // Set up state variables
   const [errors, setErrors] = useState({});
   const [users, setUsers] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
@@ -55,6 +77,7 @@ function TaskCreateForm() {
     }, []);
  
 
+  // taskData state variables
   const [taskData, setTaskData] = useState({
     title: '',
     category: '',
@@ -70,6 +93,7 @@ function TaskCreateForm() {
     assigned_to: '',
   });
 
+  // Destructure taskData
   const {
     title,
     description,
@@ -85,6 +109,7 @@ function TaskCreateForm() {
   const imageInput = useRef(null);
   const history = useHistory();
 
+  // Handle form input change
   const handleChange = (event) => {
     setTaskData({
       ...taskData,
@@ -92,6 +117,7 @@ function TaskCreateForm() {
     });
   };
 
+  // Handle image upload
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
       URL.revokeObjectURL(image);
@@ -102,6 +128,7 @@ function TaskCreateForm() {
     }
   };
 
+  // Handle date change
   const handleChangeDate = (event) => {
     setSelectedDate(event.target.value);
     setTaskData({
@@ -111,7 +138,7 @@ function TaskCreateForm() {
   };
 
 
-
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Check if assigned_to is empty
@@ -149,7 +176,7 @@ function TaskCreateForm() {
 
   }
 
-
+  // Form fields
   const textFields = (
     <div className="text-center">
       
@@ -262,9 +289,9 @@ function TaskCreateForm() {
           aria-label="task priority"
         >
           <option value="">Select task priority</option>
-          <option key="PRIORITY1" value="PRIORITY1">1</option>
-          <option key="PRIORITY2" value="PRIORITY2">2</option>
-          <option key="PRIORITY3" value="PRIORITY3">3</option>
+          <option key="PRIORITY1" value="PRIORITY1">High</option>
+          <option key="PRIORITY2" value="PRIORITY2">Medium</option>
+          <option key="PRIORITY3" value="PRIORITY3">Low</option>
         </Form.Control>
       </Form.Group>
       {errors?.priority?.map((message, idx) => (
@@ -284,7 +311,7 @@ function TaskCreateForm() {
           onChange={handleChange}
           aria-label="assigned to"
         >
-          <option>Select a user to assign</option>
+          <option>Select a user</option>
           {users.map((user) => (
             
             <option key={user.id} value={user.id}>

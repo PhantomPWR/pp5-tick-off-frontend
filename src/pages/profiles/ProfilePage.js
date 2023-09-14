@@ -1,25 +1,46 @@
+// React library & hooks
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Image } from "react-bootstrap";
-import Asset from "../../components/Asset";
-
-import styles from "../../styles/ProfilePage.module.css";
-import appStyles from "../../App.module.css";
-
-import ProfileList from "./ProfileList";
-import { useParams } from "react-router-dom";
-import { axiosReq } from "../../api/axiosDefaults";
+// Context hooks
 import { 
   useProfileData, 
   useSetProfileData,
 } from "../../contexts/ProfileDataContext";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Task from "../tasks/Task";
+
+// react-router-dom components for routing & page navigation
+import { useParams } from "react-router-dom";
+
+// Axios library for HTTP requests
+import { axiosReq } from "../../api/axiosDefaults";
+
+// Utils
 import { fetchMoreData } from "../../utils/utils";
-import NoResults from "../../assets/no-results.png"
+
+// React components
+import InfiniteScroll from "react-infinite-scroll-component";
+
+// Reusable components
+import Asset from "../../components/Asset";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
+import ProfileList from "./ProfileList";
+import Task from "../tasks/Task";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Image from "react-bootstrap/Image";
+
+// Styles
+import styles from "../../styles/ProfilePage.module.css";
+import appStyles from "../../App.module.css";
+
+// Assets
+import NoResults from "../../assets/no-results.png"
+
 
 function ProfilePage() {
+  // Set up state variables
   const [hasLoaded, setHasLoaded] = useState(false);
   const [profileTasks, setProfileTasks] = useState({ results: [] });
   const [assignedTasks, setAssignedTasks] = useState({ results: [] });
@@ -28,6 +49,7 @@ function ProfilePage() {
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
 
+  // Fetch data for profile, profile owner tasks and assigned tasks
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,12 +80,14 @@ function ProfilePage() {
   console.log('profileTasks: ', profileTasks.results.length)
   console.log('assignedTasks: ', assignedTasks.results.length)
 
+  // Calculate total task count
   const profileTaskCount = profileTasks.results.length;
   const assignedTaskCount = assignedTasks.results.length;
   const totalTaskCount = profileTaskCount + assignedTaskCount;
 
   console.log('totalTaskCount: ', totalTaskCount)
 
+  // Returns profile & task details
   const mainProfile = (
     <>
       {profile?.is_owner && <ProfileEditDropdown id={profile?.id} />}
@@ -87,9 +111,8 @@ function ProfilePage() {
       </Row>
     </>
   );
-  /* 
-    Returns all tasks created by the current or viewed profile's user
-  */
+
+  // Returns profile tasks owned by profile owner
   const mainProfileTasks = (
     <>
       {profileTasks.results.length ? (
@@ -111,11 +134,10 @@ function ProfilePage() {
     </>
   );
 
+  // Initialize task count
   let taskCount = 0;
 
-  /* 
-    Returns all tasks assigned to the current or viewed profile's user
-  */
+  // Returns tasks assigned to profile owner
   const mainAssignedTasks = (
     <>
       {assignedTasks.results.length ? (

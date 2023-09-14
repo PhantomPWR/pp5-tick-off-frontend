@@ -1,9 +1,20 @@
+// React library & hooks
 import React from "react";
-import { Container } from "react-bootstrap";
-import appStyles from "../../App.module.css";
-import Asset from "../../components/Asset";
+
+// Context hooks
 import { useProfileData } from "../../contexts/ProfileDataContext";
+
+// Reusable components
 import Profile from "./Profile";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+
+// Styles
+import appStyles from "../../App.module.css";
+
+// Assets
+import Asset from "../../components/Asset";
 
 
 const ListProfiles = ({ mobile }) => {
