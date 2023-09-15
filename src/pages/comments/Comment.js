@@ -1,14 +1,29 @@
+// React library & hooks
 import React, { useState } from "react";
-import { Media } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Avatar from "../../components/Avatar";
-import styles from "../../styles/Comment.module.css";
+
+// Context hooks
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { MoreDropdown } from "../../components/MoreDropdown";
+
+// react-router-dom components for page navigation
+import { Link } from "react-router-dom";
+
+// Axios library for HTTP requests
 import { axiosRes } from "../../api/axiosDefaults";
+
+// Reusable components
+import Avatar from "../../components/Avatar";
 import CommentEditForm from "./CommentEditForm";
+import { MoreDropdown } from "../../components/MoreDropdown";
+
+// Bootstrap components
+import Media from "react-bootstrap/Media";
+
+// Styles
+import styles from "../../styles/Comment.module.css";
+
 
 const Comment = (props) => {
+  // Destructure props
   const {
     profile_id,
     profile_image,
@@ -19,10 +34,13 @@ const Comment = (props) => {
     setTask,
     setComments,
   } = props;
+
+  // State variables
   const [showEditForm, setShowEditForm] = useState(false);
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
+  // Handle delete comment
   const handleDelete = async () => {
     try {
       await axiosRes.delete(`/comments/${id}/`);

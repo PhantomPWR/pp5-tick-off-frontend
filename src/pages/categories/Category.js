@@ -1,34 +1,38 @@
+// React library & hooks
 import React from "react";
-import { Card, Media } from "react-bootstrap";
-import { MoreDropdown } from "../../components/MoreDropdown";
-import { axiosRes } from "../../api/axiosDefaults";
+
+// react-router-dom components for page navigation
 import { Link, useHistory } from "react-router-dom";
 
+// Axios library for HTTP requests
+import { axiosRes } from "../../api/axiosDefaults";
+
+// Bootstrap components
+import { Card, Media } from "react-bootstrap";
+
+// Reusable components
+import { MoreDropdown } from "../../components/MoreDropdown";
+
+
 const Category = (props) => {
+
+  // State variables
+  const history = useHistory();
+
+  // Destructure categoryData
   const {
     id,
     title,
     description,
-    // setCategories,
     categoryPage
   } = props;
-  // const [showEditForm, setShowEditForm] = useState(false);
-  const history = useHistory();
 
+  // Handle edit
   const handleEdit = () => {
     history.push(`/categories/${id}/edit`);
   };
 
-  // const handleDelete = async () => {
-  //   try {
-  //     await axiosRes.delete(`/categories/${id}/`);
-  //     setCategories((prevCategories) => ({
-  //       ...prevCategories,
-  //       results: prevCategories.results.filter((category) => category.id !== id),
-  //     }));
-  //   } catch (err) {}
-  // };
-
+  // Handle delete
   const handleDelete = async () => {
     try {
       await axiosRes.delete(`/categories/${id}/`);

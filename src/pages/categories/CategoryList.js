@@ -1,34 +1,54 @@
+// React library & hooks
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Form } from "react-bootstrap";
-
-import Category from "../categories/Category";
-import Asset from "../../components/Asset";
-
-import appStyles from "../../App.module.css";
-import styles from "../../styles/CategoryList.module.css";
-import { useLocation } from "react-router";
-import { axiosReq } from "../../api/axiosDefaults";
-
-import NoResults from "../../assets/no-results.png";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { fetchMoreData } from "../../utils/utils";
+// Context hooks
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
+// React router components
+import { useLocation } from "react-router";
+
+// Axios library for HTTP requests
+import { axiosReq } from "../../api/axiosDefaults";
+
+// Utils
+import { fetchMoreData } from "../../utils/utils";
+
+// React components
+import InfiniteScroll from "react-infinite-scroll-component";
+
+// Reusable components
+import Asset from "../../components/Asset";
+import Category from "../categories/Category";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from 'react-bootstrap/Form';
+
+// Styles
+import appStyles from "../../App.module.css";
+import styles from "../../styles/CategoryList.module.css";
+
+// Assets
+import NoResults from "../../assets/no-results.png";
+
+
 function CategoryList({ message, filter = "" }) {
+
+  // State variables
   const [categories, setCategories] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
-
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-
+  
+    // 
     const fetchCategories = async () => {
       try {
         const { data } = await axiosReq.get(`/categories/?${filter}&search=${query}`);
-        // const { data } = await axiosReq.get(`/categories/`);
           setCategories(data);
           setHasLoaded(true);
       } catch (err) {

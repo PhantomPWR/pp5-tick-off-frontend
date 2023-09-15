@@ -1,19 +1,30 @@
+// React library & hooks
 import React, { useState } from "react";
 
-import Form from "react-bootstrap/Form";
+// Axios library for HTTP requests
 import { axiosRes } from "../../api/axiosDefaults";
 
+// Bootstrap components
+import Form from "react-bootstrap/Form";
+
+// Styles
 import styles from "../../styles/CommentCreateEditForm.module.css";
 
-function CommentEditForm(props) {
-  const { id, content, setShowEditForm, setComments } = props;
 
+function CommentEditForm(props) {
+
+  // State variables
   const [formContent, setFormContent] = useState(content);
 
+  // Destructure props
+  const { id, content, setShowEditForm, setComments } = props;
+
+  // Handle change in comment content
   const handleChange = (event) => {
     setFormContent(event.target.value);
   };
 
+  // Handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

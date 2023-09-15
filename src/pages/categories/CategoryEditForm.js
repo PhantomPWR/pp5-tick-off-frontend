@@ -1,22 +1,36 @@
+// React library & hooks
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
-import styles from "../../styles/TaskCreateEditForm.module.css";
-import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/Button.module.css";
+
+// react-router-dom components for page navigation
 import { useHistory, useParams } from "react-router-dom";
+
+// Axios library for HTTP requests
 import { axiosReq } from "../../api/axiosDefaults";
 
+// Bootstrap components
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+
+// Styles
+import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import styles from "../../styles/CategoryCreateEditForm.module.css";
 
 
 function CategoryEditForm() {
 
+  // State variables 
   const [errors, setErrors] = useState({});
- 
   const [categoryData, setCategoryData] = useState({
     title: '',
     description: '',
   });
 
+  // Destructure categoryData
   const {
     title,
     description,
@@ -24,8 +38,9 @@ function CategoryEditForm() {
 
   const history = useHistory();
   const {id} = useParams();
-
+  
   useEffect(() => {
+    // Fetch category
     const handleMount = async () => {
       try {
         const { data } = await axiosReq.get(`/categories/${id}/`);
@@ -34,6 +49,7 @@ function CategoryEditForm() {
           description,
         } = data;
 
+        // Set category data
         setCategoryData({
           title,
           description,
@@ -45,6 +61,7 @@ function CategoryEditForm() {
     handleMount();
   }, [id]);
 
+  // Handle form input
   const handleChange = (event) => {
     setCategoryData({
       ...categoryData,
@@ -52,7 +69,7 @@ function CategoryEditForm() {
     });
   };
 
-
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -76,7 +93,7 @@ function CategoryEditForm() {
 
   }
 
-
+  // Form fields
   const textFields = (
     <div className="text-center">
       

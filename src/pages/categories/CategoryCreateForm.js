@@ -1,18 +1,31 @@
+// React library & hooks
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap"
-import styles from "../../styles/TaskCreateEditForm.module.css";
-import appStyles from "../../App.module.css";
-import btnStyles from "../../styles/Button.module.css";
-import { useHistory } from "react-router-dom";
+
+// Axios library for HTTP requests
 import { axiosReq } from "../../api/axiosDefaults";
 
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+
+// Styles
+import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import styles from "../../styles/TaskCreateEditForm.module.css";
+import { useHistory } from "react-router-dom";
 
 
 function CategoryCreateForm() {
 
+  // State variables
   const [errors, setErrors] = useState({});
- 
+  const history = useHistory();
 
+  // Destructure categoryData
   const [categoryData, setCategoryData] = useState({
     title: '',
     description: '',
@@ -23,8 +36,7 @@ function CategoryCreateForm() {
     description,
   } = categoryData;
 
-  const history = useHistory();
-
+  // Handle form input
   const handleChange = (event) => {
     setCategoryData({
       ...categoryData,
@@ -32,11 +44,10 @@ function CategoryCreateForm() {
     });
   };
 
-
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-
     formData.append('title', title);
     formData.append('description', description);
   
@@ -56,7 +67,7 @@ function CategoryCreateForm() {
 
   }
 
-
+  // Form fields
   const textFields = (
     <div className="text-center">
       
@@ -110,15 +121,9 @@ function CategoryCreateForm() {
 
     <Form onSubmit={handleSubmit}>
       <Row>
-        <Col md={7} lg={7} className="d-none d-md-block p-0 p-md-2">
+        <Col md={6} lg={6} className="d-none d-md-block p-0 p-md-2 mx-auto">
+          <h1 className={`${styles.Title} text-center`}>Create Category</h1>
           <Container className={appStyles.Content}>{textFields}</Container>
-        </Col>
-        <Col className="py-2 p-0 p-md-2" md={5} lg={5}>
-          <Container
-            className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
-          >
-            <div className="d-md-none">{textFields}</div>
-          </Container>
         </Col>
       </Row>
     </Form>

@@ -1,21 +1,37 @@
+// React library & hooks
 import React, { useState } from "react";
+
+// react-router-dom components for page navigation
 import { Link } from "react-router-dom";
 
+// Axios library for HTTP requests
+import { axiosRes } from "../../api/axiosDefaults";
+
+// Reusable components
+import Avatar from "../../components/Avatar";
+
+// Bootstrap components
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
+// Styles
 import styles from "../../styles/CommentCreateEditForm.module.css";
-import Avatar from "../../components/Avatar";
-import { axiosRes } from "../../api/axiosDefaults";
+
 
 function CommentCreateForm(props) {
-  const { task, setTask, setComments, profileImage, profile_id } = props;
+
+  // State variables
   const [content, setContent] = useState("");
 
+  // Destructure props
+  const { task, setTask, setComments, profileImage, profile_id } = props;
+
+  // Handle change in comment content
   const handleChange = (event) => {
     setContent(event.target.value);
   };
 
+  // Handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

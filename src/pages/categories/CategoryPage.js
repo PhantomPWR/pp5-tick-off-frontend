@@ -1,13 +1,27 @@
+// React library & hooks
 import React, { useState, useEffect } from "react";
-import {Row, Col} from "react-bootstrap";
+
+// React router components
 import { useParams } from "react-router";
+
+// Axios library for HTTP requests
 import { axiosReq } from "../../api/axiosDefaults";
+
+// Reusable components
 import Category from "../categories/Category";
 
+// Bootstrap components
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+
 function CategoryPage() {
+
+  // State variables
   const { id } = useParams();
   const [category, setCategory] = useState({ results: [] });
 
+  // Fetch category
   useEffect(() => {
     const handleMount = async () => {
       try {
