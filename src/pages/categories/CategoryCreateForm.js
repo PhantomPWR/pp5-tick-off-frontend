@@ -1,6 +1,9 @@
 // React library & hooks
 import React, { useState } from "react";
 
+// react-router-dom components for page navigation
+import { useHistory } from "react-router-dom";
+
 // Axios library for HTTP requests
 import { axiosReq } from "../../api/axiosDefaults";
 
@@ -16,7 +19,6 @@ import Alert from "react-bootstrap/Alert";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import styles from "../../styles/TaskCreateEditForm.module.css";
-import { useHistory } from "react-router-dom";
 
 
 function CategoryCreateForm() {

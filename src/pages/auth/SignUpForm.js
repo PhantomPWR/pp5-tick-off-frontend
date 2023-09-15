@@ -1,28 +1,45 @@
+// React library & hooks
 import React, { useState } from "react";
+
+// react-router-dom components for page navigation
 import { Link, useHistory } from "react-router-dom";
 
-import styles from "../../styles/SignInUpForm.module.css";
-import btnStyles from "../../styles/Button.module.css";
-import appStyles from "../../App.module.css";
-
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
-import axios from "axios";
+// Custom hooks
 import { useRedirect } from '../../hooks/useRedirect';
+
+// Axios library for HTTP requests
+import axios from "axios";
+
+// Bootstrap components
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
+
+// Styles
+import appStyles from "../../App.module.css";
+import btnStyles from "../../styles/Button.module.css";
+import styles from "../../styles/SignInUpForm.module.css";
 
 
 const SignUpForm = () => {
+
+  // Redirect if user is logged in
   useRedirect('loggedIn');
+
+  // State variables
   const [signUpData, setSignUpData] = useState({
     username: '',
     password1: '',
     password2: '',
   });
   const { username, password1, password2 } = signUpData;
-
   const [errors, setErrors] = useState({});
-
   const history = useHistory();
 
+  // Handle form input
   const handleChange = (event) => {
     setSignUpData({
       ...signUpData,
@@ -30,6 +47,7 @@ const SignUpForm = () => {
     });
   };
 
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

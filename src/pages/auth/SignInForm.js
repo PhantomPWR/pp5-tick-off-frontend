@@ -31,6 +31,7 @@ import styles from '../../styles/SignInUpForm.module.css';
 
 
 function SignInForm() {
+  
   // Set up state variables
   const setCurrentUser = useSetCurrentUser();
   const [signInData, setSignInData] = useState({
