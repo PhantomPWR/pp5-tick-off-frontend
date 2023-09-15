@@ -1,19 +1,30 @@
+// React hooks
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+
+// React router components
+import { useHistory } from "react-router";
+
+// Axios library for HTTP requests
 import axios from "axios";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
-import { useHistory } from "react-router";
+
+// Utils
 import { removeTokenTimestamp, shouldRefreshToken } from "../utils/utils";
 
+// Contexts
 export const CurrentUserContext = createContext();
 export const SetCurrentUserContext = createContext();
-
 export const useCurrentUser = () => useContext(CurrentUserContext);
 export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
+// Provider component
 export const CurrentUserProvider = ({ children }) => {
+
+  // Set up state variables
   const [currentUser, setCurrentUser] = useState(null);
   const history = useHistory();
 
+  // Redirect to user's tasks after login
   const handleMount = async () => {
     try {
       const { data } = await axiosRes.get("dj-rest-auth/user/");
@@ -27,6 +38,7 @@ export const CurrentUserProvider = ({ children }) => {
     handleMount();
   }, []);
 
+  // Set up interceptors
   useMemo(() => {
     axiosReq.interceptors.request.use(
       async (config) => {

@@ -1,5 +1,10 @@
+// React hooks
 import { createContext, useContext, useEffect, useState } from "react";
+
+// Axios library for HTTP requests
 import { axiosReq } from "../api/axiosDefaults";
+
+// Context hooks
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 // Context objects
@@ -10,12 +15,14 @@ const SetProfileDataContext = createContext();
 export const useProfileData = () => useContext(ProfileDataContext);
 export const useSetProfileData = () => useContext(SetProfileDataContext);
 
+// Provider component
 export const ProfileDataProvider = ({ children }) => {
+
+  // Set up state variables
   const [profileData, setProfileData] = useState({
     pageProfile: { results: [] },
     listProfiles: { results: [] },
   });
-
   const currentUser = useCurrentUser();
 
   /*

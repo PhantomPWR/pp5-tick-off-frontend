@@ -1,12 +1,23 @@
-import axios from 'axios';
+// React hooks
 import { useEffect } from 'react';
+
+// React router components
 import { useHistory } from 'react-router';
+
+// Axios library for HTTP requests
+import axios from 'axios';
+
+// Contexts
 import { useCurrentUser } from '../contexts/CurrentUserContext';
 
+
 export const useRedirect = (userAuthStatus) => {
+
+  // Set up state variables
   const history = useHistory();
   const currentUser = useCurrentUser();
 
+  // Redirect to user's tasks after login
   useEffect(() => {
     const handleMount = async () => {
       try {
