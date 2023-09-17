@@ -1,11 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+// React library & hooks
+import React, { useEffect, useRef, useState } from "react";
+
+// Axios library for HTTP requests
 import { axiosReq } from "../api/axiosDefaults";
 
+// Bootstrap components
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+
+// Styles
 import styles from '../styles/SearchBar.module.css';
 
+
 function SearchBar({ query, setQuery, taskCount }) {
+
+    // Set up task category choices state variable & setter
     const [
       taskCategoryChoices,
       setTaskCategoryChoices
@@ -30,6 +39,7 @@ function SearchBar({ query, setQuery, taskCount }) {
       fetchTaskCategoryChoices();
     }, []);
 
+    // Set up form ref
     const formRef = useRef(null);
     const clearForm = () => {
         formRef.current.reset();
@@ -42,6 +52,7 @@ function SearchBar({ query, setQuery, taskCount }) {
       className={styles.SearchBar}
       onSubmit={(event) => event.preventDefault()}
     >
+      {/* Search bar & result count */}
       <div className='row row-cols-2 d-flex justify-content-between align-items-center'>
         <div className="col-9">
           <Form.Control
@@ -52,14 +63,15 @@ function SearchBar({ query, setQuery, taskCount }) {
             placeholder="Search tasks"
             aria-label="Search Bar"
           />
-        </div>
+        </div> {/* /col */}
         <div className="col-3 text-center">
           <p className="me-sm-2">
             Search results: {taskCount}
           </p>
-        </div>
-      </div>
+        </div> {/* /col */}
+      </div> {/* /row */}
 
+      {/* Filter buttons */}
       <div className="row row-cols-4 mb-3 justify-content-even g-3">
         {/* Task Category */}
         <div className="col">
@@ -79,7 +91,7 @@ function SearchBar({ query, setQuery, taskCount }) {
               </option>
             ))}
           </Form.Control>
-        </div>
+        </div> {/* /col */}
         {/* Task Status */}
         <div className="col">
           <Form.Control
@@ -95,7 +107,7 @@ function SearchBar({ query, setQuery, taskCount }) {
             <option key="INPROGRESS" value="INPROGRESS">In Progress</option>
             <option key="COMPLETED" value="COMPLETED">Completed</option>
           </Form.Control>
-        </div>
+        </div> {/* /col */}
 
         {/* Task Priority */}
         <div className="col">
@@ -111,14 +123,14 @@ function SearchBar({ query, setQuery, taskCount }) {
             <option key="PRIORITY2" value="PRIORITY2">Medium</option>
             <option key="PRIORITY3" value="PRIORITY3">Low</option>
           </Form.Control>
-        </div>
+        </div> {/* /col */}
         {/* Clear filters */}
         <div className="col text-end">
           <Button className={styles.OrangeOutline} type="button" onClick={clearForm}>
             Clear filters
           </Button>
-        </div>
-      </div>
+        </div> {/* /col */}
+      </div> {/* /row */}
     </Form>
   );
 }

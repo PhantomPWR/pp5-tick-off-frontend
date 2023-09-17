@@ -1,7 +1,15 @@
+// React library
 import React from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import styles from "../styles/MoreDropdown.module.css";
+
+// React-router-dom components for page navigation
 import { useHistory } from "react-router";
+
+// Bootstrap components
+import Dropdown from "react-bootstrap/Dropdown";
+
+// Styles
+import styles from "../styles/MoreDropdown.module.css";
+
 
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
@@ -16,6 +24,7 @@ const ThreeDots = React.forwardRef(({ onClick }, ref) => (
   />
 ));
 
+// Dropdown menu
 export const MoreDropdown = ({ handleEdit, handleDelete }) => {
   return (
     <Dropdown className="ms-auto" drop="left">
@@ -44,6 +53,7 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
   );
 };
 
+// Profile edit dropdown menu
 export const ProfileEditDropdown = ({ id }) => {
   const history = useHistory();
   return (

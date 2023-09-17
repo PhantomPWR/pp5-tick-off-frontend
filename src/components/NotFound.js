@@ -1,7 +1,15 @@
+// React library
 import React from 'react';
-import NoResults from '../assets/no-results.png';
-import styles from '../styles/NoResults.module.css';
+
+// Reusable components
 import Asset from './Asset';
+
+// Assets
+import NoResults from '../assets/no-results.png';
+
+// Styles
+import styles from '../styles/NoResults.module.css';
+
 
 const NotFound = () => {
   return (
